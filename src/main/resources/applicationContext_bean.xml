@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:aop="http://www.springframework.org/schema/aop" xmlns:tx="http://www.springframework.org/schema/tx"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans   
+           http://www.springframework.org/schema/beans/spring-beans-2.5.xsd  
+           http://www.springframework.org/schema/context  
+           http://www.springframework.org/schema/context/spring-context-2.5.xsd  
+           http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-2.5.xsd  
+           http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-2.5.xsd">
+  	
+	<!-- 业务层Service  -->
+	<bean id="userService" class="com.dacManager.www.server.impl.UserServerImpl">
+		<property name="jdbcTemplate">
+			<ref bean="jdbcTemplate"/>
+		</property>
+	</bean>
+	<bean id="bulletinService" class="com.dacManager.www.server.impl.BulletinServerImpl">
+		<property name="jdbcTemplate">
+			<ref bean="jdbcTemplate"/>
+		</property>
+	</bean>
+	<bean id="newsService" class="com.dacManager.www.server.impl.NewsServerImpl">
+		<property name="jdbcTemplate">
+			<ref bean="jdbcTemplate"/>
+		</property>
+	</bean>
+	<bean id="productService" class="com.dacManager.www.server.impl.ProductServerImpl">
+		<property name="jdbcTemplate">
+			<ref bean="jdbcTemplate"/>
+		</property>
+	</bean>
+	<bean id="schemeService" class="com.dacManager.www.server.impl.SchemeServerImpl">
+		<property name="jdbcTemplate">
+			<ref bean="jdbcTemplate"/>
+		</property>
+	</bean>
+	<bean id="schemeTypeService" class="com.dacManager.www.server.impl.SchemeTypeServerImpl">
+		<property name="jdbcTemplate">
+			<ref bean="jdbcTemplate"/>
+		</property>
+	</bean>
+	<bean id="photoService" class="com.dacManager.www.server.impl.PhotoServiceImpl">
+		<property name="jdbcTemplate">
+			<ref bean="jdbcTemplate"/>
+		</property>
+	</bean> 
+	
+	<!-- 控制层Action -->
+	<bean id="UserAction" class="com.dacManager.www.action.UserAction" scope="prototype">
+		<property name="userService">
+			<ref bean="userService" />
+		</property>
+	</bean>
+	<bean id="LoginAction" class="com.dacManager.www.action.LoginAction" scope="prototype">
+		<property name="userService">
+			<ref bean="userService" />
+		</property>
+	</bean>
+	<bean id="BulletinAction" class="com.dacManager.www.action.BulletinAction" scope="prototype">
+		<property name="bulletinServer">
+			<ref bean="bulletinService" />
+		</property>
+	</bean>
+	<bean id="NewsAction" class="com.dacManager.www.action.NewsAction" scope="prototype">
+		<property name="newsServer">
+			<ref bean="newsService" />
+		</property>
+	</bean>
+	<bean id="ProductAction" class="com.dacManager.www.action.ProductAction" scope="prototype">
+		<property name="productServer">
+			<ref bean="productService" />
+		</property>
+	</bean>
+	<bean id="SchemeAction" class="com.dacManager.www.action.SchemeAction" scope="prototype">
+		<property name="schemeServer">
+			<ref bean="schemeService" />
+		</property>
+		<property name="schemeTypeServer">
+			<ref bean="schemeTypeService" />
+		</property>
+	</bean>
+	<bean id="SchemeTypeAction" class="com.dacManager.www.action.SchemeTypeAction" scope="prototype">
+		<property name="schemeTypeServer">
+			<ref bean="schemeTypeService" />
+		</property>
+	</bean>
+	
+	<bean id="PhotoAction" class="com.dacManager.www.action.PhotoAction" scope="prototype">
+		<property name="photoServer">
+			<ref bean="photoService" />
+		</property>
+	</bean> 
+</beans>  

@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8"?>  
+<beans xmlns="http://www.springframework.org/schema/beans"  
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:context="http://www.springframework.org/schema/context"  
+    xmlns:aop="http://www.springframework.org/schema/aop" xmlns:tx="http://www.springframework.org/schema/tx"  
+    xsi:schemaLocation="http://www.springframework.org/schema/beans   
+           http://www.springframework.org/schema/beans/spring-beans-2.5.xsd  
+           http://www.springframework.org/schema/context  
+           http://www.springframework.org/schema/context/spring-context-2.5.xsd  
+           http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-2.5.xsd  
+           http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-2.5.xsd">  
+  
+    <!-- 用Bean定义数据源 -->  
+    <bean id="dataSource" class="com.mchange.v2.c3p0.ComboPooledDataSource"  
+        destroy-method="close">  
+        <!-- 定义数据库驱动 -->  
+        <property name="driverClass">  
+            <value>oracle.jdbc.driver.OracleDriver</value>  
+        </property>  
+        <!-- 定义数据库URL -->  
+        <property name="jdbcUrl">  
+            <value>jdbc:oracle:thin:@localhost:1521:wspt</value>  
+        </property>  
+        <!-- 定义数据库的用户名 -->  
+        <property name="user">  
+            <value>dacManager</value>  
+        </property>  
+        <!-- 定义数据库的密码 -->  
+        <property name="password">  
+            <value>dacManager</value>  
+        </property>  
+        <property name="minPoolSize">  
+            <value>1</value>  
+        </property>  
+        <property name="maxPoolSize">  
+            <value>40</value>  
+        </property>  
+        <property name="maxIdleTime">  
+            <value>1800</value>  
+        </property>  
+        <property name="acquireIncrement">  
+            <value>2</value>  
+        </property>  
+        <property name="maxStatements">  
+            <value>0</value>  
+        </property>  
+        <property name="initialPoolSize">  
+            <value>2</value>  
+        </property>  
+        <property name="idleConnectionTestPeriod">  
+            <value>1800</value>  
+        </property>  
+        <property name="acquireRetryAttempts">  
+            <value>30</value>  
+        </property>  
+        <property name="breakAfterAcquireFailure">  
+            <value>true</value>  
+        </property>  
+        <property name="testConnectionOnCheckout">  
+            <value>false</value>  
+        </property>  
+    </bean> 
+    
+  	<!--该id不能修改 -->
+	<bean id="jdbcTemplate" class="org.springframework.jdbc.core.JdbcTemplate">
+		<property name="dataSource">
+			<ref bean="dataSource" />
+		</property>
+	</bean>
+</beans>

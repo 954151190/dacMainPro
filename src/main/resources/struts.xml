@@ -1,0 +1,186 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE struts PUBLIC
+	"-//Apache Software Foundation//DTD Struts Configuration 2.3//EN"
+	"http://struts.apache.org/dtds/struts-2.3.dtd">
+<struts>
+	<constant name="struts.i18n.reload" value="false" />
+	<constant name="struts.devMode" value="false" />
+	<constant name="struts.objectFactory" value="spring" />
+	<package name="default" extends="struts-default" namespace="/">
+		<!-- 图片管理action -->
+		<!-- LIST -->
+		<action name="toPhotoList" class="PhotoAction" method="photoList">
+			<result name="success">rightPhoto.jsp</result>
+		</action>
+		
+		<!-- SAVE -->
+		<action name="toPhotoAdd" class="PhotoAction" method="toPhotoAdd">
+			<result name="success">fomrAddPhoto.jsp</result>
+		</action>
+		
+		<!-- 照片管理 -->
+		<action name="addPhoto" class="PhotoAction" method="addPhoto">
+			<result name="success">index.jsp</result>
+			<result name="login">login.jsp</result>
+		</action>
+		
+		<!-- 请求图片 -->
+		<action name="showPhoto" class="PhotoAction" method="showPhoto"></action>
+		
+		<action name="photoAdd" class="PhotoAction" method="photoAdd" >
+			<result name="success">fomrAddPhoto.jsp</result>
+		</action>
+		
+		<!-- DELETE -->
+		<action name="photoDelete" class="PhotoAction" method="photoDelete"/>
+	
+		<!-- 业务类型管理action -->
+		<!-- LIST -->
+		<action name="toSchemeTypeList" class="SchemeTypeAction" method="schemeTypeList">
+			<result name="success">rightSchemeType.jsp</result>
+		</action>
+		
+		<!-- SAVE -->
+		<action name="toSchemeTypeAdd" class="SchemeTypeAction" method="toSchemeTypeAdd">
+			<result name="success">fomrAddSchemeType.jsp</result>
+		</action>
+		
+		<action name="schemeTypeAdd" class="SchemeTypeAction" method="schemeTypeAdd" />
+		
+		<!-- UPDATE -->
+		<action name="toSchemeTypeUpdate" class="SchemeTypeAction" method="toSchemeTypeUpdate">
+			<result name="success">fomrUpdateSchemeType.jsp</result>
+		</action>
+		
+		<action name="schemeTypeUpdate" class="SchemeTypeAction" method="schemeTypeUpdate" />
+		
+		<!-- DELETE -->
+		<action name="schemeTypeDelete" class="SchemeTypeAction" method="schemeTypeDelete"/>
+	
+		<!-- 登录 -->
+		<action name="login" class="LoginAction" method="login">
+			<result name="success">main.html</result>
+			<result name="error">login.jsp</result>
+		</action>
+		<!-- 用户管理action -->
+		<!-- LIST -->
+		<action name="toUserList" class="UserAction" method="userList">
+			<result name="success">rightUser.jsp</result>
+		</action>
+		
+		<!-- SAVE -->
+		<action name="toUserAdd" class="UserAction" method="toUserAdd">
+			<result name="success">fomrAddUser.jsp</result>
+		</action>
+		
+		<action name="userAdd" class="UserAction" method="userAdd" />
+		
+		<!-- UPDATE -->
+		<action name="toUserUpdate" class="UserAction" method="toUserUpdate">
+			<result name="success">fomrUpdateUser.jsp</result>
+		</action>
+		
+		<action name="userUpdate" class="UserAction" method="userUpdate" />
+		
+		<!-- DELETE -->
+		<action name="userDelete" class="UserAction" method="userDelete"/>
+		
+		<!-- 公示公告管理action -->
+		<!-- LIST -->
+		<action name="toBulletinList" class="BulletinAction" method="bulletinList">
+			<result name="success">rightBulletin.jsp</result>
+		</action>
+		
+		<!-- SAVE -->
+		<action name="toBulletinAdd" class="BulletinAction" method="toBulletinAdd">
+			<result name="success">fomrAddBulletin.jsp</result>
+		</action>
+		
+		<action name="bulletinAdd" class="BulletinAction" method="bulletinAdd" />
+		
+		<!-- UPDATE -->
+		<action name="toBulletinUpdate" class="BulletinAction" method="toBulletinUpdate">
+			<result name="success">fomrUpdateBulletin.jsp</result>
+		</action>
+		
+		<action name="bulletinUpdate" class="BulletinAction" method="bulletinUpdate" />
+		
+		<!-- DELETE -->
+		<action name="bulletinDelete" class="BulletinAction" method="bulletinDelete"/>
+		
+		<!-- 农信要闻管理action -->
+		<!-- LIST -->
+		<action name="toNewsList" class="NewsAction" method="newsList">
+			<result name="success">rightNews.jsp</result>
+		</action>
+		
+		<!-- SAVE -->
+		<action name="toNewsAdd" class="NewsAction" method="toNewsAdd">
+			<result name="success">fomrAddNews.jsp</result>
+		</action>
+		
+		<action name="newsAdd" class="NewsAction" method="newsAdd" />
+		
+		<!-- UPDATE -->
+		<action name="toNewsUpdate" class="NewsAction" method="toNewsUpdate">
+			<result name="success">fomrUpdateNews.jsp</result>
+		</action>
+		
+		<action name="newsUpdate" class="NewsAction" method="newsUpdate" />
+		
+		<!-- DELETE -->
+		<action name="newsDelete" class="NewsAction" method="newsDelete"/>
+		
+		<!-- 产品管理ation -->
+		<!-- LIST -->
+		<action name="toProductList" class="ProductAction" method="productList">
+			<result name="success">rightProduct.jsp</result>
+		</action>
+		
+		<!-- SAVE -->
+		<action name="toProductAdd" class="ProductAction" method="toProductAdd">
+			<result name="success">fomrAddProduct.jsp</result>
+		</action>
+		
+		<action name="productAdd" class="ProductAction" method="productAdd">
+			<result name="success" >fomrAddProduct.jsp</result>
+		</action>
+		
+		<!-- UPDATE -->
+		<action name="toProductUpdate" class="ProductAction" method="toProductUpdate">
+			<result name="success">fomrUpdateProduct.jsp</result>
+		</action>
+		
+		<action name="productUpdate" class="ProductAction" method="productUpdate" >
+			<result name="success">fomrUpdateProduct.jsp</result>
+		</action>
+		
+		<!-- DELETE -->
+		<action name="productDelete" class="ProductAction" method="productDelete"/>
+		
+		
+		
+		<!-- 业务管理action -->
+		<!-- LIST -->
+		<action name="toSchemeList" class="SchemeAction" method="schemeList">
+			<result name="success">rightScheme.jsp</result>
+		</action>
+		
+		<!-- SAVE -->
+		<action name="toSchemeAdd" class="SchemeAction" method="toSchemeAdd">
+			<result name="success">fomrAddScheme.jsp</result>
+		</action>
+		
+		<action name="schemeAdd" class="SchemeAction" method="schemeAdd" />
+		
+		<!-- UPDATE -->
+		<action name="toSchemeUpdate" class="SchemeAction" method="toSchemeUpdate">
+			<result name="success">fomrUpdateScheme.jsp</result>
+		</action>
+		
+		<action name="schemeUpdate" class="SchemeAction" method="schemeUpdate" />
+		
+		<!-- DELETE -->
+		<action name="schemeDelete" class="SchemeAction" method="schemeDelete"/>
+	</package>
+</struts>
