@@ -24,60 +24,48 @@ div{
 	text-align: LIFT;
 	} 
 </style>
-<script>
-	/**
-		执行添加公示公告信息方法
-	*/
-	function UpdateBulletin() {
-		var title = encodeURI(encodeURI(document.getElementById("title").value));
-		var arr = [];
-        arr.push(UE.getEditor('editor').getContent());
-        var content = arr.join("\n");
-		content = encodeURI(encodeURI(content));
-		$.ajax({  
-             url :"bulletinUpdate",//后台处理程序
-             type:"post",    	//数据发送方式  
-             async:false,  
-             data:"bulletin.title="+title+"&bulletin.content="+content ,
-             error: function(){  
-             	alert("服务器没有返回数据，可能服务器忙，请重试");  
-            },  
-             success: function(data){
-            	 var retDate = eval("("+data+")");
-            	 if( true == retDate.MANAGER_RESULT ) {
-            		 //执行成功,跳转到UserList页面
-            		 alert("更新公示公告成功");
-            		 document.getElementById("toBulletinList").submit();
-            	 }else{
-            		 //执行失败，alert错误信息
-            		 alert("更新公示公告信息失败，失败原因：" + retDate.MANAGER_ERROR_MESSAGE );
-            	 }
-            }	
-		});  
-	}
-</script>
 </head>
 
 <body>
-	<form id="toBulletinList" method="post" name="toBulletinList" action="toBulletinList" />
 	<div class="place">
-    <span>位置：</span>
-    <ul class="placeul">
-    <li><a href="#">首页</a></li>
-    <li><a href="#">更新公示公告</a></li>
-    </ul>
+    	<span>位置：</span>
+	    <ul class="placeul">
+		    <li><a href="#">首页</a></li>
+		    <li><a href="#">更新公示公告</a></li>
+	    </ul>
     </div>
     <div class="formbody">
-    <div class="formtitle"><span>基本信息</span></div>
-    <ul class="forminfo">
-    <li><label>文章标题</label><input name="title" id="title" type="text" class="dfinput" value="${ bulletin.title }" ></input> <i>标题不能超过30个字符</i></li>
-    <li>
-    	<label>文章内容</label>
-    	<script id="editor" type="text/plain" style="width:100%;height:500px;">${ bulletin.content }</script>
-    </li>
-    <li><label>&nbsp;</label><input name="" type="button" class="btn" value="确认更新" onclick="UpdateBulletin()"/></li>
-    </ul>
+	    <div class="formtitle"><span>基本信息</span></div>
+		    <ul class="forminfo">
+		    	<form id="bulletinUpdate" method="post" name="bulletinUpdate" action="bulletinUpdate"/>
+				    <li><label>文章标题</label><input name="bulletin.title" id="bulletin.title" type="text" class="dfinput" value="${ bulletin.title }" ></input> <i>标题不能超过30个字符</i></li>
+				    <li>
+				    	<label>文章内容</label>
+				    	<script id="editor" type="text/plain" style="width:100%;height:500px;">${ bulletin.content }</script>
+				    </li>
+				    <li><label>&nbsp;</label><input name="" type="submit"" class="btn" value="确认更新" onclick="UpdateBulletin()"/></li>
+				    <li>
+				    	<input type="hidden" id="bulletin.content" name="bulletin.content"/>
+				    	<input type="hidden" id="bulletin.id" name="bulletin.id" value="${ bulletin.id }"/>
+				    </li>
+				</form>
+		    </ul>
+	    </div>
     </div>
+    <div>
+    	<form id="toBulletinList" method="post" name="toBulletinList" action="toBulletinList?page.number=1&page.count=10" />
+    </div>
+<script>
+	function UpdateBulletin() {
+		var title = encodeURI(encodeURI(document.getElementById("bulletin.title").value));
+		var arr = [];
+        arr.push(UE.getEditor('editor').getContent());
+        var content = arr.join("\n");
+		content = encodeURI(content);
+        document.getElementById("bulletin.content").value = content;
+        return true;
+	}
+</script>    
 <script type="text/javascript">
     //实例化编辑器
     //建议使用工厂方法getEditor创建和引用编辑器实例，如果在某个闭包下引用该编辑器，直接调用UE.getEditor('editor')就能拿到相关的实例
@@ -180,6 +168,22 @@ div{
             UE.dom.domUtils.removeAttributes(btn, ["disabled"]);
         }
     }
+</script>
+ <script>
+	var regS = new RegExp("&quot;","gi"); 
+	var mess = '';
+	mess="<s:property value='%{retJson}'/>";
+	mess = mess.replace(regS,"\"");
+	try{
+		var obj = JSON.parse(mess);
+		if( true == obj.MANAGER_RESULT ) {
+			alert("操作成功");
+			document.forms["toBulletinList"].submit();
+		}else{
+			alert("操作失败");
+		}
+	}catch(e) {
+	}
 </script>
 </body>
 </html>

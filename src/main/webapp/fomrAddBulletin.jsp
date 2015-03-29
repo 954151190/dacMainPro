@@ -21,63 +21,51 @@
 	text-align: LIFT;
 	} 
 </style>
+</head>
+
+<body>
+	<div class="place">
+    	<span>位置：</span>
+	    <ul class="placeul">
+		    <li><a href="#">首页</a></li>
+		    <li><a href="#">表单</a></li>
+	    </ul>
+    </div>
+    
+    <div class="formbody">
+	    <div class="formtitle"><span>基本信息</span></div>
+	    	<form id="bulletinAdd" method="post" name="bulletinAdd" action="bulletinAdd"/>
+			    <ul class="forminfo">
+				    <li><label>文章标题</label><input name="bulletin.title" id="bulletin.title" type="text" class="dfinput" value="公示公告标题" ></input> <i>标题不能超过30个字符</i></li>
+				    <li>
+				    	<label>文章内容</label>
+				    	<script id="editor" type="text/plain" style="width:100%;height:500px;"></script>
+				    </li>
+				    <li><label>&nbsp;</label><input name="" type="submit" class="btn" value="确认保存" onclick="AddBulletin()"/></li>
+				    <li>
+				    	<input type="hidden" id="bulletin.content" name="bulletin.content"/>
+				    </li>
+			    </ul>
+		    </form>
+	    </div>
+    </div>
+    <div>
+    	<form id="toBulletinList" method="post" name="toBulletinList" action="toBulletinList?page.number=1&page.count=10" />
+    </div>
 <script>
 	/**
 		执行添加公示公告信息方法
 	*/
 	function AddBulletin() {
-		var title = encodeURI(encodeURI(document.getElementById("title").value));
-		var state =document.getElementById("state").value;
-		
+		var title = encodeURI(encodeURI(document.getElementById("bulletin.title").value));
 		var arr = [];
         arr.push(UE.getEditor('editor').getContent());
         var content = arr.join("\n");
-        content = encodeURI(encodeURI(content));
-		$.ajax({  
-             url :"bulletinAdd",//后台处理程序
-             type:"post",    	//数据发送方式  
-             async:false,  
-             data:"bulletin.title="+title+"&bulletin.content="+content+"",
-             error: function(){  
-             	alert("服务器没有返回数据，可能服务器忙，请重试");  
-            },  
-             success: function(data){
-            	 var retDate = eval("("+data+")");
-            	 if( true == retDate.MANAGER_RESULT ) {
-            		 //执行成功,跳转到UserList页面
-            		 alert("添加公示公告成功");
-            		 document.getElementById("toBulletinList").submit();
-            	 }else{
-            		 //执行失败，alert错误信息
-            		 alert("添加公示公告信息失败，失败原因：" + retDate.MANAGER_ERROR_MESSAGE );
-            	 }
-            }	
-		});  
+        content = encodeURI(content);
+        document.getElementById("bulletin.content").value = content;
+        return true;
 	}
-</script>
-</head>
-
-<body>
-	<form id="toBulletinList" method="post" name="toBulletinList" action="toBulletinList" />
-	<div class="place">
-    <span>位置：</span>
-    <ul class="placeul">
-    <li><a href="#">首页</a></li>
-    <li><a href="#">表单</a></li>
-    </ul>
-    </div>
-    <div class="formbody">
-    <div class="formtitle"><span>基本信息</span></div>
-    <ul class="forminfo">
-    <li><label>文章标题</label><input name="title" id="title" type="text" class="dfinput" value="张三" ></input> <i>标题不能超过30个字符</i></li>
-    <li><label>状态</label><cite><input name="state" id="state" type="radio" value="" checked="checked" />开启&nbsp;&nbsp;&nbsp;&nbsp;<input name="state" type="radio" value="" />关闭</cite></li>
-    <li>
-    	<label>文章内容</label>
-    	<script id="editor" type="text/plain" style="width:100%;height:500px;"></script>
-    </li>
-    <li><label>&nbsp;</label><input name="" type="button" class="btn" value="确认保存" onclick="AddBulletin()"/></li>
-    </ul>
-    </div>
+</script>    
 <script type="text/javascript">
     //实例化编辑器
     //建议使用工厂方法getEditor创建和引用编辑器实例，如果在某个闭包下引用该编辑器，直接调用UE.getEditor('editor')就能拿到相关的实例
@@ -180,6 +168,22 @@
             UE.dom.domUtils.removeAttributes(btn, ["disabled"]);
         }
     }
-</script>    
+</script>   
+<script>
+	var regS = new RegExp("&quot;","gi"); 
+	var mess = '';
+	mess="<s:property value='%{retJson}'/>";
+	mess = mess.replace(regS,"\"");
+	try{
+		var obj = JSON.parse(mess);
+		if( true == obj.MANAGER_RESULT ) {
+			alert("操作成功");
+			document.forms["toBulletinList"].submit();
+		}else{
+			alert("操作失败");
+		}
+	}catch(e) {
+	}
+</script>
 </body>
 </html>

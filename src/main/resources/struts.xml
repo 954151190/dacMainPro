@@ -91,14 +91,18 @@
 			<result name="success">fomrAddBulletin.jsp</result>
 		</action>
 		
-		<action name="bulletinAdd" class="BulletinAction" method="bulletinAdd" />
+		<action name="bulletinAdd" class="BulletinAction" method="bulletinAdd" >
+			<result name="success">fomrAddBulletin.jsp</result>
+		</action>
 		
 		<!-- UPDATE -->
 		<action name="toBulletinUpdate" class="BulletinAction" method="toBulletinUpdate">
 			<result name="success">fomrUpdateBulletin.jsp</result>
 		</action>
 		
-		<action name="bulletinUpdate" class="BulletinAction" method="bulletinUpdate" />
+		<action name="bulletinUpdate" class="BulletinAction" method="bulletinUpdate" >
+			<result name="success">fomrUpdateBulletin.jsp</result>
+		</action>
 		
 		<!-- DELETE -->
 		<action name="bulletinDelete" class="BulletinAction" method="bulletinDelete"/>

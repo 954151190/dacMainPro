@@ -19,6 +19,7 @@ import com.dacManager.www.entry.Bulletin;
 import com.dacManager.www.entry.Page;
 import com.dacManager.www.entry.User;
 import com.dacManager.www.server.IBulletinServer;
+import com.dacManager.www.util.JsonUtil;
 import com.dacManager.www.util.StaticVariable;
 import com.opensymphony.xwork2.ActionSupport;
   
@@ -33,6 +34,11 @@ public class BulletinAction extends ActionSupport {
 	 * 分页对象，负责传递分页参数
 	 */
 	private Page page = new Page();
+	
+	/**
+	 * 返回结果JSON对象
+	 */
+	private String retJson;
 	
 	/**
 	 * 新增、修改、删除操作传递公示公告信息对象
@@ -121,8 +127,6 @@ public class BulletinAction extends ActionSupport {
     public String bulletinUpdate() {
     	//初始化上下问对象
     	Map<String,Object> contextMap = new HashMap<String,Object>();
-    	//初始化向HTML返回处理结果字符串
-    	String returnHtmlMsg = createHtmlMsg();
     	try{
     		//过滤乱码
     		this.bulletin = this.filterCode(this.bulletin);
@@ -131,15 +135,17 @@ public class BulletinAction extends ActionSupport {
     		bulletinServer.updateBulletinServer( contextMap );
     		//设置返回结果
 			contextMap.put( StaticVariable.MANAGER_RESULT , true);
+			//生成返回JSON
+			this.retJson = JsonUtil.createRetJson(contextMap);
     	}catch(Exception ex) {
     		logger.error("更新公示公告失败，失败原因。", ex);
     		//设置返回结果
 			contextMap.put( StaticVariable.MANAGER_RESULT , false);
 			contextMap.put( StaticVariable.MANAGER_ERROR_MESSAGE , ex);
+			//生成返回JSON
+			this.retJson = JsonUtil.createErrorRetJson();
     	}
-    	//创建返回内容
-    	createHtmlMsg(contextMap);
-    	return null;
+    	return SUCCESS;
     }
     
     /**
@@ -176,8 +182,6 @@ public class BulletinAction extends ActionSupport {
     public String bulletinAdd() {
     	//初始化上下文对象
 		Map<String,Object> contextMap = new HashMap<String,Object>();
-		//初始化向HTML返回处理结果字符串
-		String returnHtmlMsg = createHtmlMsg();
     	try {
 	    	//过滤乱码
 	    	this.bulletin = this.filterCode(this.bulletin);
@@ -186,15 +190,17 @@ public class BulletinAction extends ActionSupport {
 	    	bulletinServer.saveBulletinServer(contextMap);
 			//设置返回结果
 			contextMap.put( StaticVariable.MANAGER_RESULT , true);
+			//生成返回JSON
+			this.retJson = JsonUtil.createRetJson(contextMap);  
 		} catch (Exception ex) {
 			logger.error("保存公示公告信息失败，失败原因",ex);
 			//设置返回结果
 			contextMap.put( StaticVariable.MANAGER_RESULT , false);
 			contextMap.put( StaticVariable.MANAGER_ERROR_MESSAGE , ex);
+			//生成返回JSON
+			this.retJson = JsonUtil.createErrorRetJson();
 		} 
-    	//创建返回内容
-    	createHtmlMsg(contextMap);
-    	return null;
+    	return SUCCESS;
     }
     
     /**
@@ -279,5 +285,13 @@ public class BulletinAction extends ActionSupport {
 
 	public void setBulletin(Bulletin bulletin) {
 		this.bulletin = bulletin;
+	}
+
+	public String getRetJson() {
+		return retJson;
+	}
+
+	public void setRetJson(String retJson) {
+		this.retJson = retJson;
 	}
 }  
