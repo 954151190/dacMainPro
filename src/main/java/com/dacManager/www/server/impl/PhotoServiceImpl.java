@@ -268,7 +268,7 @@ public class PhotoServiceImpl implements IPhotoServer{
 		int numberMax = page.getCount() * page.getNumber();
 		//¼ÆËã×îÐ¡ÐòºÅ
 		int numberMin = (page.getNumber()-1) * page.getCount();
-		String sql = "SELECT * FROM ( SELECT A.*, ROWNUM RN FROM ( select * from " + StaticVariable.TABLE_NAME_PHOTO + " ) A WHERE ROWNUM <= "+numberMax+" ) WHERE RN > "+numberMin+"";
+		String sql = "SELECT * FROM ( SELECT A.*, ROWNUM RN FROM ( SELECT * FROM " + StaticVariable.TABLE_NAME_PHOTO + " ) A WHERE ROWNUM <= "+numberMax+" ) WHERE RN > "+numberMin+"";
 		List<Photo> photoList = jdbcTemplate.query(sql , new PhotoRowMapper());
 		return photoList;
 	}

@@ -193,5 +193,4 @@ function deletePhoto( data ) {
 		window.location.href="toPhotoList?page.number="+allPage+"&page.count="+count+"";
 	}
 </script>
-
 </html>
