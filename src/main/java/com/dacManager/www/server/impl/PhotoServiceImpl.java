@@ -263,7 +263,7 @@ public class PhotoServiceImpl implements IPhotoServer{
 	}
 	
 	public List<Photo> selectEntryList4Page(Map<String, Object> contextMap) {
-		Page page = (Page)contextMap.get(StaticVariable.PAGE_SCHEME);
+		Page page = (Page)contextMap.get(StaticVariable.PAGE_PHOTO);
 		//计算最大序号
 		int numberMax = page.getCount() * page.getNumber();
 		//计算最小序号

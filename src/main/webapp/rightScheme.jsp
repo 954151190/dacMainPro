@@ -133,17 +133,17 @@ function deleteSchemes( data ) {
     
    
     <div class="pagin">
-    	<div class="message">共<i class="blue">1256</i>条记录，当前显示第&nbsp;<i class="blue">2&nbsp;</i>页</div>
+    	<div class="message">共<i class="blue">${ page.allCount }</i>条记录，当前显示第&nbsp;${ page.number }&nbsp;页，总&nbsp;${ page.allPage }&nbsp;页</div>
         <ul class="paginList">
-        <li class="paginItem"><a href="javascript:;"><span class="pagepre"></span></a></li>
-        <li class="paginItem"><a href="javascript:;">1</a></li>
-        <li class="paginItem current"><a href="javascript:;">2</a></li>
-        <li class="paginItem"><a href="javascript:;">3</a></li>
-        <li class="paginItem"><a href="javascript:;">4</a></li>
-        <li class="paginItem"><a href="javascript:;">5</a></li>
-        <li class="paginItem more"><a href="javascript:;">...</a></li>
-        <li class="paginItem"><a href="javascript:;">10</a></li>
-        <li class="paginItem"><a href="javascript:;"><span class="pagenxt"></span></a></li>
+        <li class="paginItem"><a href="javascript:goLastPage()" style="width: 41px">首页</a></li>
+        <li class="paginItem"><a href="javascript:pageLast();" style="width: 41px">上一页</a></li>
+        <li class="paginItem current"><a href="javascript:;"  style="width: 41px">${page.number }</a></li>
+        <li class="paginItem"><a href="javascript:pageNext();" style="width: 41px">下一页</a></li>
+        <li class="paginItem"><a href="javascript:goNextPage();" style="width: 41px">末页</a></li>
+        <li class="paginItem">
+        	<input type="text" id="pageNumber" value="${ page.number }" style="width: 31px;height: 25px;border: 2px solid #000000; margin-left: 2px;  margin-right: 2px;"/>
+        </li>
+        <li class="paginItem"><a href="javascript:pageGo();">跳转</a></li>
         </ul>
     </div>
     
@@ -176,5 +176,45 @@ function deleteSchemes( data ) {
 	</script>
 
 </body>
+<script>
+	var number = "<s:property value='%{page.number}'/>";
+	var count = "<s:property value='%{page.count}'/>";
+	var allPage = "<s:property value='%{page.allPage}'/>";
+	
+	function pageGo() {
+		var goNumber = document.getElementById("pageNumber").value;
+		goNumber = parseInt(goNumber);
+		if( isNaN(goNumber) ||  goNumber <= 0 || goNumber > allPage ) {
+			alert("请输入有效页码")
+		}else{
+			window.location.href="toSchemeList?page.number="+goNumber+"&page.count="+count+"";			
+		}
+	}
 
+	function pageLast() {
+		var goNumber = parseInt( number ) - parseInt(1);
+		if( goNumber > 0 ) {
+			window.location.href="toSchemeList?page.number="+ goNumber +"&page.count="+count+"";
+		}else{
+			alert("没有了，已经是第一页了。");
+		}
+	}
+	
+	function pageNext() {
+		var goNumber = parseInt(number)+parseInt(1);
+		if( goNumber <= allPage) {
+			window.location.href="toSchemeList?page.number="+ goNumber +"&page.count="+count+"";
+		}else{
+			alert("没有了，已经是最有一页了。");
+		}
+	}
+	
+	function goLastPage() {
+		window.location.href="toSchemeList?page.number=1&page.count="+count+"";
+	}
+	
+	function goNextPage() {
+		window.location.href="toSchemeList?page.number="+allPage+"&page.count="+count+"";
+	}
+</script>
 </html>

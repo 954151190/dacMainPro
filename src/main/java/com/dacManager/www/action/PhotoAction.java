@@ -75,7 +75,7 @@ public class PhotoAction extends ActionSupport {
     	 * 从数据库中分页查找图片信息，保存为集合对象后返回前台页面
     	 */
     	Map<String,Object> contextMap = new HashMap<String,Object>();
-    	contextMap.put(StaticVariable.PAGE_SCHEME, this.page);//设置分页属性
+    	contextMap.put(StaticVariable.PAGE_PHOTO, this.page);//设置分页属性
     	photoList = photoServer.selectEntryList4Page(contextMap);
     	//处理分页对象
     	//查询总数
