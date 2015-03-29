@@ -16,6 +16,7 @@ import org.springframework.jdbc.core.JdbcTemplate;
 
 import com.dacManager.www.dao.db.rowMapper.BulletinRowMapper;
 import com.dacManager.www.entry.Bulletin;
+import com.dacManager.www.entry.Page;
 import com.dacManager.www.entry.User;
 import com.dacManager.www.server.IBulletinServer;
 import com.dacManager.www.util.BuildSQLUtil;
@@ -220,9 +221,24 @@ public class BulletinServerImpl implements IBulletinServer {
 		return tempMap;
 	}
 	
-	public List<Bulletin> selectBulletinList4Page(Map<String, Object> bulletinMap) {
-		String sql = "select * from " + StaticVariable.TABLE_NAME_BULLETIN+ "";
+	public List<Bulletin> selectBulletinList4Page(Map<String, Object> contextMap) {
+		Page page = (Page)contextMap.get(StaticVariable.PAGE_BULLETIN);
+		//计算最大序号
+		int numberMax = page.getCount() * page.getNumber();
+		//计算最小序号
+		int numberMin = (page.getNumber()-1) * page.getCount();
+		String sql = "SELECT * FROM ( SELECT A.*, ROWNUM RN FROM ( SELECT * FROM " + StaticVariable.TABLE_NAME_BULLETIN + " ) A WHERE ROWNUM <= "+numberMax+" ) WHERE RN > "+numberMin+"";
 		List<Bulletin> bulletinList = jdbcTemplate.query(sql , new BulletinRowMapper());
 		return bulletinList;
+	}
+	
+	/**
+	 * 查询信息个数
+	 * @param contextMap
+	 */
+	public Long countEntry( Map<String,Object> contextMap ){
+		String countStr = BuildSQLUtil.buildCountAllSQL( StaticVariable.TABLE_NAME_BULLETIN );
+		Long l = jdbcTemplate.queryForLong(countStr);
+		return l;
 	}
 }

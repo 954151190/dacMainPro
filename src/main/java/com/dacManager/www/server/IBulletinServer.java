@@ -60,4 +60,10 @@ public interface IBulletinServer {
 	 * @return
 	 */
 	public List<Bulletin> selectBulletinList4Page( Map<String,Object> bulletinMap );
+	
+	/**
+	 * 查询信息个数
+	 * @param contextMap
+	 */
+	public Long countEntry( Map<String,Object> contextMap );
 }
