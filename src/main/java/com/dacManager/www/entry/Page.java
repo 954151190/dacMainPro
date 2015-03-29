@@ -22,6 +22,25 @@ public class Page {
 	 */
 	private int count;
 
+	/**
+	 * 信息总数
+	 */
+	private long allCount;
+	
+	/**
+	 * 分页总页数
+	 * @return
+	 */
+	private long allPage;
+	
+	public long getAllCount() {
+		return allCount;
+	}
+
+	public void setAllCount(long allCount) {
+		this.allCount = allCount;
+	}
+
 	public int getNumber() {
 		return number;
 	}
@@ -36,5 +55,13 @@ public class Page {
 
 	public void setCount(int count) {
 		this.count = count;
+	}
+
+	public long getAllPage() {
+		return allPage;
+	}
+
+	public void setAllPage(long allPage) {
+		this.allPage = allPage;
 	}
 }

@@ -74,4 +74,10 @@ public interface IPhotoServer {
 	 * @return
 	 */
 	public List<Photo> selectEntryList4Page( Map<String,Object> contextMap );
+	
+	/**
+	 * ²éÑ¯×ÜÊı
+	 */
+	public Long countEntry( Map<String,Object> contextMap );
+	
 }

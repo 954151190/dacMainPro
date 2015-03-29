@@ -19,9 +19,11 @@ import org.springframework.jdbc.core.JdbcTemplate;
 
 import com.dacManager.www.action.PhotoAction;
 import com.dacManager.www.dao.db.rowMapper.PhotoRowMapper;
+import com.dacManager.www.dao.db.rowMapper.SchemeRowMapper;
+import com.dacManager.www.entry.Page;
 import com.dacManager.www.entry.Photo;
+import com.dacManager.www.entry.Scheme;
 import com.dacManager.www.entry.SchemeType;
-import com.dacManager.www.entry.User;
 import com.dacManager.www.server.IPhotoServer;
 import com.dacManager.www.util.BuildSQLUtil;
 import com.dacManager.www.util.QueryHelper;
@@ -248,22 +250,6 @@ public class PhotoServiceImpl implements IPhotoServer{
 		}
 	}
 
-	private Map<String,Object> selectEntry4Login( Map<String,Object> contextMap ) throws Exception {
-		User loginUser = (User)contextMap.get(StaticVariable.MS_USER_OBJECT);
-		List<Object> whereFields = new ArrayList<Object>();
-		List<Object> values = new ArrayList<Object>();
-		whereFields.add("USER_NAME");
-		whereFields.add("USER_PASSWORD");
-		
-		values.add(loginUser.getUser_name());
-		values.add(loginUser.getUser_password());
-		
-		String selectSQL = BuildSQLUtil.buildSelectAllFieldsWithConditionSQL(StaticVariable.TABLE_NAME_USER, whereFields.toArray());
-		Connection conn = jdbcTemplate.getDataSource().getConnection();
-		Map<String,Object> tempMap = QueryHelper.selectSqlForMap(conn, selectSQL,values.toArray());
-		return tempMap;
-	}
-	
 	public Map<String, Object> selectEntry4ID(Map<String, Object> contextMap) throws Exception{
 		Photo photo = (Photo)contextMap.get(StaticVariable.MS_PHOTO_OBJECT);
 		List<Object> fields = new ArrayList<Object>();
@@ -276,21 +262,36 @@ public class PhotoServiceImpl implements IPhotoServer{
 		return tempMap;
 	}
 	
-	public Map<String,Object> selectEntry4UserName( Map<String,Object> contextMap ) throws Exception{
-		User user = (User)contextMap.get(StaticVariable.MS_USER_OBJECT);
-		List<Object> fields = new ArrayList<Object>();
-		List<Object> values = new ArrayList<Object>();
-		fields.add("USER_NAME");
-		values.add(user.getUser_name());
-		String selectSQL = BuildSQLUtil.buildSelectAllFieldsWithConditionSQL(StaticVariable.TABLE_NAME_USER, fields.toArray());
-		Connection conn = jdbcTemplate.getDataSource().getConnection();
-		Map<String,Object> tempMap = QueryHelper.selectSqlForMap(conn, selectSQL,values.toArray());
-		return tempMap;
-	}
-	
 	public List<Photo> selectEntryList4Page(Map<String, Object> contextMap) {
-		String sql = "select * from " + StaticVariable.TABLE_NAME_PHOTO+ "";
+		//获取业务类型信息
+		Page page = (Page)contextMap.get(StaticVariable.PAGE_SCHEME);
+		//计算最大序号
+		int numberMax = page.getCount() * page.getNumber();
+		//计算最大序号
+		int numberMin = (page.getNumber()-1) * page.getCount();
+		String sql = "SELECT * FROM ( SELECT A.*, ROWNUM RN FROM ( select * from " + StaticVariable.TABLE_NAME_PHOTO + " ) A WHERE ROWNUM <= "+numberMax+" ) WHERE RN > "+numberMin+"";
 		List<Photo> photoList = jdbcTemplate.query(sql , new PhotoRowMapper());
 		return photoList;
+	}
+	public List<Scheme> selectEntryList4Page4Type(Map<String, Object> contextMap) {
+		//获取业务类型信息
+		Page page = (Page)contextMap.get(StaticVariable.PAGE_SCHEME);
+		//计算最大序号
+		int numberMax = page.getCount() * page.getNumber();
+		//计算最大序号
+		int numberMin = (page.getNumber()-1) * page.getCount();
+		String sql = "SELECT * FROM ( SELECT A.*, ROWNUM RN FROM (SELECT * FROM "+StaticVariable.TABLE_NAME_SCHEME+") A WHERE ROWNUM <= "+numberMax+" ) WHERE RN >= "+numberMin+"";
+		List<Scheme> schemeList = jdbcTemplate.query(sql , new SchemeRowMapper());
+		return schemeList;
+	}
+	
+	/**
+	 * 查询信息个数
+	 * @param contextMap
+	 */
+	public Long countEntry( Map<String,Object> contextMap ){
+		String countStr = BuildSQLUtil.buildCountAllSQL( StaticVariable.TABLE_NAME_PHOTO );
+		Long l = jdbcTemplate.queryForLong(countStr);
+		return l;
 	}
 }

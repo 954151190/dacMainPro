@@ -115,7 +115,9 @@ h2{font-weight:normal;}
 .pagin .blue{color:#056dae;font-style:normal;}
 .pagin .paginList{position:absolute;right:12px;top:0;}
 .pagin .paginList .paginItem{float:left;}
-.pagin .paginList .paginItem a{float:left;width:31px;height:28px;border:1px solid #DDD; text-align:center;line-height:30px;border-left:none;color:#3399d5;}
+.pagin .paginList .paginItem a{float:left;width:41px;height:28px;border:1px solid #DDD; text-align:center;line-height:30px;border-left:none;color:#3399d5;}
+.pagin .paginList .paginItem lable{float:left;width:41px;height:28px;border:1px solid #DDD; text-align:center;line-height:30px;border-left:none;color:#3399d5;}
+.pagin .paginList .paginItem input{width: 31px;height: 25px;border: 2px solid #000000; margin-left: 2px;  margin-right: 2px;}
 .pagin .paginList .paginItem:first-child a{border-left:1px solid #DDD;}
 .pagin .paginList .paginItem:first-child a{border-bottom-left-radius:5px;border-top-left-radius:5px;}
 .pagin .paginList .paginItem:last-child a{border-bottom-right-radius:5px;border-top-right-radius:5px;}

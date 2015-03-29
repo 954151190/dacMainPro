@@ -74,9 +74,19 @@ public class PhotoAction extends ActionSupport {
     	/**
     	 * 从数据库中分页查找图片信息，保存为集合对象后返回前台页面
     	 */
-    	Map<String,Object> parameterMap = new HashMap<String,Object>();
-    	parameterMap.put("page", this.page);//设置分页属性
-    	photoList = photoServer.selectEntryList4Page(parameterMap);
+    	Map<String,Object> contextMap = new HashMap<String,Object>();
+    	contextMap.put(StaticVariable.PAGE_SCHEME, this.page);//设置分页属性
+    	photoList = photoServer.selectEntryList4Page(contextMap);
+    	//处理分页对象
+    	//查询总数
+    	Long allEntry = photoServer.countEntry( contextMap );
+    	this.page.setAllCount( allEntry );
+    	//计算总页数
+    	if( (this.page.getAllCount() % this.page.getCount()) != 0) {
+    		this.page.setAllPage( (this.page.getAllCount() / this.page.getCount()) +1 );
+    	}else{
+    		this.page.setAllPage( (this.page.getAllCount() / this.page.getCount())  );
+    	}
     	return SUCCESS;
     }
 
