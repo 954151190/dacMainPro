@@ -13,23 +13,18 @@
 			<result name="success">rightPhoto.jsp</result>
 		</action>
 		
-		<!-- SAVE -->
+		<!-- 跳转SVAE图片页面 -->
 		<action name="toPhotoAdd" class="PhotoAction" method="toPhotoAdd">
 			<result name="success">fomrAddPhoto.jsp</result>
 		</action>
 		
-		<!-- 照片管理 -->
-		<action name="addPhoto" class="PhotoAction" method="addPhoto">
-			<result name="success">index.jsp</result>
-			<result name="login">login.jsp</result>
+		<!-- SAVE图片 -->
+		<action name="photoAdd" class="PhotoAction" method="photoAdd" >
+			<result name="success">fomrAddPhoto.jsp</result>
 		</action>
 		
 		<!-- 请求图片 -->
 		<action name="showPhoto" class="PhotoAction" method="showPhoto"></action>
-		
-		<action name="photoAdd" class="PhotoAction" method="photoAdd" >
-			<result name="success">fomrAddPhoto.jsp</result>
-		</action>
 		
 		<!-- DELETE -->
 		<action name="photoDelete" class="PhotoAction" method="photoDelete"/>

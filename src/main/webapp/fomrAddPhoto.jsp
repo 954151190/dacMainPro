@@ -31,27 +31,48 @@
 
 <body>
 	<div class="place">
-    <span>位置：</span>
-    <ul class="placeul">
-    <li><a href="#">首页</a></li>
-    <li><a href="#">表单</a></li>
-    </ul>
+	    <span>位置：</span>
+	    <ul class="placeul">
+		   	<li><a href="#">首页</a></li>
+		    <li><a href="#">表单</a></li>
+	    </ul>
     </div>
     <div class="formbody">
-    <div class="formtitle"><span>基本信息</span></div>
-    <ul class="forminfo">
-    	<form id="photoAdd" method="post" name="photoAdd" action="photoAdd" enctype="multipart/form-data"/>
-		    <li><label>图片标题1</label><input name="photo.title" id="photo.title" type="text" class="dfinput" value="图片标题" ></input> <i>标题不能超过30个字符</i></li>
-		    <li>
-		    	<label>文章内容</label>
-		    	<input type="file" id="photoFile" name="photoFile" style="width:450">
-		    	<input type="submit" class="btn" value="上传文件"><span id="msg"></span>
-		    	<br>
-		    	<font color="red">支持JPG,JPEG,GIF,BMP,SWF,RMVB,RM,AVI文件的上传</font>
-		    </li>
-		    <li><label>&nbsp;</label><input name="" type="submit" class="btn" value="上传文件" onclick="AddPhoto()"/></li>
+	    <div class="formtitle"><span>基本信息</span></div>
+		    <ul class="forminfo">
+		    	<form id="photoAdd" method="post" name="photoAdd" action="photoAdd" enctype="multipart/form-data"/>
+				    <li><label>图片标题</label><input name="photo.title" id="photo.title" type="text" class="dfinput" value="图片标题" ></input> <i>标题不能超过30个字符</i></li>
+				    <li>
+				    	<label>文章内容</label>
+				    	<input type="file" id="photoFile" name="photoFile" style="width:450">
+				    	<br/>
+				    	<font color="red">支持JPG,JPEG,GIF,BMP,SWF,RMVB,RM,AVI文件的上传</font>
+				    	<br/>
+				    	<input type="submit" class="btn" value="上传文件"><span id="msg"></span>
+				    	<br/>
+				    </li>
+		    	</form>
 		    </ul>
-    	</form>
+	    </div>
+	</div>
+	<div>
+    	<form id="toPhotoList" method="post" name="toPhotoList" action="toPhotoList?page.number=1&page.count=10" />
     </div>
 </body>
+<script>
+	var regS = new RegExp("&quot;","gi"); 
+	var mess = '';
+	mess="<s:property value='%{retJson}'/>";
+	mess = mess.replace(regS,"\"");
+	try{
+		var obj = JSON.parse(mess);
+		if( true == obj.MANAGER_RESULT ) {
+			alert("操作成功");
+			document.forms["toPhotoList"].submit();
+		}else{
+			alert("操作失败");
+		}
+	}catch(e) {
+	}
+</script>  
 </html>
