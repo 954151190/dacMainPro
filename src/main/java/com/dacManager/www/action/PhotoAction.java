@@ -24,6 +24,7 @@ import org.slf4j.LoggerFactory;
 import com.dacManager.www.entry.Page;
 import com.dacManager.www.entry.Photo;
 import com.dacManager.www.server.IPhotoServer;
+import com.dacManager.www.util.JsonUtil;
 import com.dacManager.www.util.StaticVariable;
 import com.opensymphony.xwork2.ActionSupport;
   
@@ -243,47 +244,15 @@ public class PhotoAction extends ActionSupport {
 			//设置返回结果
 			contextMap.put( StaticVariable.MANAGER_RESULT , true);
 			//创建返回内容
-	    	retJson = createRetJson(contextMap);
+	    	retJson = JsonUtil.createRetJson(contextMap);
 		} catch (Exception ex) {
 			logger.error("保存图片信息失败，失败原因",ex);
 			//设置返回结果
 			contextMap.put( StaticVariable.MANAGER_RESULT , false);
 			contextMap.put( StaticVariable.MANAGER_ERROR_MESSAGE , ex);
-			retJson = createErrorRetJson();
+			retJson = JsonUtil.createErrorRetJson();
 		} 
     	return SUCCESS;
-    }
-    
-    /**
-     * 创建返回JSON对象
-     * @param	contextMap	上下文对象
-     * @return
-     */
-    private String createRetJson( Map<String,Object> contextMap ) throws Exception {
-    	try{
-    		Map<String,Object> retMap = new HashMap<String,Object>();
-        	retMap.put(StaticVariable.MANAGER_ERROR_MESSAGE, contextMap.get(StaticVariable.MANAGER_ERROR_MESSAGE));
-        	retMap.put(StaticVariable.MANAGER_RESULT, contextMap.get(StaticVariable.MANAGER_RESULT));
-        	JSONObject jsonObject = JSONObject.fromObject(retMap);
-        	retJson = jsonObject.toString();
-        	return retJson;
-    	}catch(Exception ex) {
-    		logger.error("生成JSON处理结果对象失败",ex);
-    		throw ex;
-    	}
-    }
-    
-    /**
-     * 创建未知异常处理结果的JSON字符串
-     * @return
-     */
-    private String createErrorRetJson() {
-    	Map<String,Object> errorRetMap = new HashMap<String,Object>();
-    	errorRetMap.put(StaticVariable.MANAGER_ERROR_MESSAGE, "操作失败，未知错误。");
-    	errorRetMap.put(StaticVariable.MANAGER_RESULT, false);
-    	JSONObject jsonObject = JSONObject.fromObject(errorRetMap);
-    	retJson = jsonObject.toString();
-    	return retJson;
     }
     
     /**
