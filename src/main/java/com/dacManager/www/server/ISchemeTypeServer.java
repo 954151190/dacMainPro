@@ -67,4 +67,10 @@ public interface ISchemeTypeServer {
 	 * @return
 	 */
 	public List<SchemeType> selectEntryList( Map<String,Object> contextMap ) throws Exception;
+	
+	/**
+	 * 查询信息个数
+	 * @param contextMap
+	 */
+	public Long countEntry( Map<String,Object> contextMap );
 }

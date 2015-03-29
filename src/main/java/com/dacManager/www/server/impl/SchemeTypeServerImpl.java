@@ -13,6 +13,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.jdbc.core.JdbcTemplate;
 
 import com.dacManager.www.dao.db.rowMapper.SchemeTypeRowMapper;
+import com.dacManager.www.entry.Page;
 import com.dacManager.www.entry.Scheme;
 import com.dacManager.www.entry.SchemeType;
 import com.dacManager.www.entry.User;
@@ -243,7 +244,12 @@ public class SchemeTypeServerImpl implements ISchemeTypeServer{
 	}
 	
 	public List<SchemeType> selectEntryList4Page(Map<String, Object> contextMap) {
-		String sql = "select * from " + StaticVariable.TABLE_NAME_SCHEME_TYPE+ "";
+		Page page = (Page)contextMap.get(StaticVariable.PAGE_SCHEME_TYPE);
+		//计算最大序号
+		int numberMax = page.getCount() * page.getNumber();
+		//计算最小序号
+		int numberMin = (page.getNumber()-1) * page.getCount();
+		String sql = "SELECT * FROM ( SELECT A.*, ROWNUM RN FROM ( SELECT * FROM " + StaticVariable.TABLE_NAME_SCHEME_TYPE+ " ) A WHERE ROWNUM <= "+numberMax+" ) WHERE RN > "+numberMin+"";
 		List<SchemeType> schemeList = jdbcTemplate.query(sql , new SchemeTypeRowMapper());
 		return schemeList;
 	}
@@ -252,5 +258,15 @@ public class SchemeTypeServerImpl implements ISchemeTypeServer{
 		String selectSQL = BuildSQLUtil.buildSelectAllFieldsWithoutConditionSQL(StaticVariable.TABLE_NAME_SCHEME_TYPE);
 		List<SchemeType> schemeList = jdbcTemplate.query(selectSQL , new SchemeTypeRowMapper());
 		return schemeList;
+	}
+	
+	/**
+	 * 查询信息个数
+	 * @param contextMap
+	 */
+	public Long countEntry( Map<String,Object> contextMap ){
+		String countStr = BuildSQLUtil.buildCountAllSQL( StaticVariable.TABLE_NAME_SCHEME_TYPE );
+		Long l = jdbcTemplate.queryForLong(countStr);
+		return l;
 	}
 }
