@@ -66,4 +66,10 @@ public interface IUserServer {
 	 * @return
 	 */
 	public List<User> selectUserList4Page( Map<String,Object> userMap );
+	
+	/**
+	 * 查询信息个数
+	 * @param contextMap
+	 */
+	public Long countEntry( Map<String,Object> contextMap );
 }

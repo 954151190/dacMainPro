@@ -114,5 +114,10 @@ public class StaticVariable {
 	 * 图片分页对象标识
 	 */
 	public static final String PAGE_PHOTO= "PAGE_PHOTO";
+	/**
+	 * 用户分页对象标识
+	 */
+	public static final String PAGE_USER = "PAGE_USER";
+	
 	
 }
