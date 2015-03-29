@@ -118,14 +118,18 @@
 			<result name="success">fomrAddNews.jsp</result>
 		</action>
 		
-		<action name="newsAdd" class="NewsAction" method="newsAdd" />
+		<action name="newsAdd" class="NewsAction" method="newsAdd" >
+			<result name="success">fomrAddNews.jsp</result>
+		</action>
 		
 		<!-- UPDATE -->
 		<action name="toNewsUpdate" class="NewsAction" method="toNewsUpdate">
 			<result name="success">fomrUpdateNews.jsp</result>
 		</action>
 		
-		<action name="newsUpdate" class="NewsAction" method="newsUpdate" />
+		<action name="newsUpdate" class="NewsAction" method="newsUpdate" >
+			<result name="success">fomrUpdateNews.jsp</result>
+		</action>
 		
 		<!-- DELETE -->
 		<action name="newsDelete" class="NewsAction" method="newsDelete"/>

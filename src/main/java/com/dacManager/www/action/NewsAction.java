@@ -18,6 +18,7 @@ import org.slf4j.LoggerFactory;
 import com.dacManager.www.entry.News;
 import com.dacManager.www.entry.Page;
 import com.dacManager.www.server.INewsServer;
+import com.dacManager.www.util.JsonUtil;
 import com.dacManager.www.util.StaticVariable;
 import com.opensymphony.xwork2.ActionSupport;
   
@@ -42,6 +43,11 @@ public class NewsAction extends ActionSupport {
 	 * 产品列表页面数据集合
 	 */
 	private List<News> newsList = new ArrayList<News>();
+	
+	/**
+	 * 返回JSON对象
+	 */
+	private String retJson;
 	
 	/**
 	 * 服务类对象
@@ -119,8 +125,6 @@ public class NewsAction extends ActionSupport {
     public String newsUpdate() {
     	//初始化上下问对象
     	Map<String,Object> contextMap = new HashMap<String,Object>();
-    	//初始化向HTML返回处理结果字符串
-    	String returnHtmlMsg = createHtmlMsg();
     	try{
     		//过滤乱码
     		this.news = this.filterCode(this.news);
@@ -129,15 +133,17 @@ public class NewsAction extends ActionSupport {
     		newsServer.updateEntryServer( contextMap );
     		//设置返回结果
 			contextMap.put( StaticVariable.MANAGER_RESULT , true);
+			//生成返回JSON
+			this.retJson = JsonUtil.createRetJson(contextMap);
     	}catch(Exception ex) {
     		logger.error("更新业务失败，失败原因。", ex);
     		//设置返回结果
 			contextMap.put( StaticVariable.MANAGER_RESULT , false);
 			contextMap.put( StaticVariable.MANAGER_ERROR_MESSAGE , ex);
+			//生成返回JSON
+			this.retJson = JsonUtil.createErrorRetJson();
     	}
-    	//创建返回内容
-    	createHtmlMsg(contextMap);
-    	return null;
+    	return SUCCESS;
     }
     
     /**
@@ -174,8 +180,6 @@ public class NewsAction extends ActionSupport {
     public String newsAdd() {
     	//初始化上下文对象
 		Map<String,Object> contextMap = new HashMap<String,Object>();
-		//初始化向HTML返回处理结果字符串
-		String returnHtmlMsg = createHtmlMsg();
     	try {
 	    	//过滤乱码
 	    	this.news = this.filterCode(this.news);
@@ -184,15 +188,17 @@ public class NewsAction extends ActionSupport {
 	    	newsServer.saveEntryServer(contextMap);
 			//设置返回结果
 			contextMap.put( StaticVariable.MANAGER_RESULT , true);
+			//生成返回JSON
+			this.retJson = JsonUtil.createRetJson(contextMap);
 		} catch (Exception ex) {
 			logger.error("保存业务信息失败，失败原因",ex);
 			//设置返回结果
 			contextMap.put( StaticVariable.MANAGER_RESULT , false);
 			contextMap.put( StaticVariable.MANAGER_ERROR_MESSAGE , ex);
+			//生成返回JSON
+			this.retJson = JsonUtil.createErrorRetJson();
 		} 
-    	//创建返回内容
-    	createHtmlMsg(contextMap);
-    	return null;
+    	return SUCCESS;
     }
     
     /**
@@ -277,5 +283,13 @@ public class NewsAction extends ActionSupport {
 
 	public void setNewsServer(INewsServer newsServer) {
 		this.newsServer = newsServer;
+	}
+
+	public String getRetJson() {
+		return retJson;
+	}
+
+	public void setRetJson(String retJson) {
+		this.retJson = retJson;
 	}
 } 

@@ -21,60 +21,50 @@
 	text-align: LIFT;
 	} 
 </style>
+</head>
+
+<body>
+	<div class="place">
+    	<span>位置：</span>
+	    <ul class="placeul">
+		    <li><a href="#">首页</a></li>
+		    <li><a href="#">更新产品</a></li>
+	    </ul>
+    </div>
+    <div class="formbody">
+	    <div class="formtitle"><span>基本信息</span></div>
+		    <ul class="forminfo">
+			    <form id="newsUpdate" method="post" name="newsUpdate" action="newsUpdate"/>
+				    <li><label>文章标题</label><input name="news.title" id="news.title" type="text" class="dfinput" value="${ news.title }" ></input> <i>标题不能超过30个字符</i></li>
+				    <li>
+				    	<label>文章内容</label>
+				    	<script id="editor" type="text/plain" style="width:100%;height:500px;">${ news.content }</script>
+				    </li>
+				    <li><label>&nbsp;</label><input name="" type="submit" class="btn" value="确认更新" onclick="UpdateNews()"/></li>
+				    <li>
+				    	<input type="hidden" id="news.content" name="news.content"/>
+				    	<input type="hidden" id="news.id" name="news.id" value="${ news.id }"/>
+				    </li>
+			    </form>
+		    </ul>
+	    </div>
+    </div>
+    <div>
+    	<form id="toNewsList" method="post" name="toNewsList" action="toNewsList?page.number=1&page.count=10" />
+    </div>
 <script>
 	/**
 		执行更新农信要闻信息方法
 	*/
 	function UpdateNews() {
-		var title = encodeURI(encodeURI(document.getElementById("title").value));
 		var arr = [];
         arr.push(UE.getEditor('editor').getContent());
         var content = arr.join("\n");
-		content = encodeURI(encodeURI(content));
-		$.ajax({  
-             url :"newsUpdate",//后台处理程序
-             type:"post",    	//数据发送方式  
-             async:false,  
-             data:"news.title="+title+"&news.content="+content,
-             error: function(){  
-             	alert("服务器没有返回数据，可能服务器忙，请重试");  
-            },  
-             success: function(data){
-            	 var retDate = eval("("+data+")");
-            	 if( true == retDate.MANAGER_RESULT ) {
-            		 //执行成功,跳转到UserList页面
-            		 alert("更新农信要闻成功");
-            		 document.getElementById("toNewsList").submit();
-            	 }else{
-            		 //执行失败，alert错误信息
-            		 alert("更新农信要闻信息失败，失败原因：" + retDate.MANAGER_ERROR_MESSAGE );
-            	 }
-            }	
-		});  
+		content = encodeURI(content);
+		document.getElementById("news.content").value = content; 
+		return true;
 	}
-</script>
-</head>
-
-<body>
-	<form id="toNewsList" method="post" name="toNewsList" action="toNewsList" />
-	<div class="place">
-    <span>位置：</span>
-    <ul class="placeul">
-    <li><a href="#">首页</a></li>
-    <li><a href="#">更新产品</a></li>
-    </ul>
-    </div>
-    <div class="formbody">
-    <div class="formtitle"><span>基本信息</span></div>
-    <ul class="forminfo">
-    <li><label>文章标题</label><input name="title" id="title" type="text" class="dfinput" value="${ news.title }" ></input> <i>标题不能超过30个字符</i></li>
-    <li>
-    	<label>文章内容</label>
-    	<script id="editor" type="text/plain" style="width:100%;height:500px;">${ news.content }</script>
-    </li>
-    <li><label>&nbsp;</label><input name="" type="button" class="btn" value="确认更新" onclick="UpdateNews()"/></li>
-    </ul>
-    </div>
+</script>    
 <script type="text/javascript">
     //实例化编辑器
     //建议使用工厂方法getEditor创建和引用编辑器实例，如果在某个闭包下引用该编辑器，直接调用UE.getEditor('editor')就能拿到相关的实例
@@ -177,6 +167,22 @@
             UE.dom.domUtils.removeAttributes(btn, ["disabled"]);
         }
     }
+</script>
+<script>
+	var regS = new RegExp("&quot;","gi"); 
+	var mess = '';
+	mess="<s:property value='%{retJson}'/>";
+	mess = mess.replace(regS,"\"");
+	try{
+		var obj = JSON.parse(mess);
+		if( true == obj.MANAGER_RESULT ) {
+			alert("操作成功");
+			document.forms["toNewsList"].submit();
+		}else{
+			alert("操作失败");
+		}
+	}catch(e) {
+	}
 </script>    
 </body>
 </html>
