@@ -60,7 +60,7 @@
 	    </form>
     </div>
     <div>
-    	<form id="toProductList" method="post" name="toProductList" action="toProductList" />
+    	<form id="toProductList" method="post" name="toProductList" action="toProductList?page.number=1&page.count=10" />
     </div>
 <script>
 	/**
