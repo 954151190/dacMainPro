@@ -19,6 +19,50 @@
 	text-align: LIFT;
 	} 
 </style>
+</head>
+
+<body>
+	<form id="toSchemeTypeList" method="post" name="toSchemeTypeList" action="toSchemeTypeList" />
+	<div class="place">
+	    <span>位置：</span>
+	    <ul class="placeul">
+		    <li><a href="#">首页</a></li>
+		    <li><a href="#">表单</a></li>
+	    </ul>
+    </div>
+    <div class="formbody">
+	    <div class="formtitle"><span>基本信息</span></div>
+	    <ul class="forminfo">
+		    <li><label>业务类型名称</label><input name="title" id="title" type="text" class="dfinput" value="业务类型名称" ></input> <i>标题不能超过30个字符</i></li>
+		    <li><label>是否在首页展示</label>
+		    	<cite>
+			    	<input name="is_show" id="is_show" type="radio" value="1" checked="checked" />
+			    	&nbsp;展示&nbsp;&nbsp;&nbsp;&nbsp;
+			    	<input name="is_show" id="is_show" type="radio" value="0" />
+			    	不展示
+		    	</cite>
+		    </li>
+		    <li><label>业务类型描述</label><input name="content" id="content" type="text" class="dfinput" value="业务类型描述" ></li>
+		    <li><label>&nbsp;</label><input name="" type="button" class="btn" value="确认保存" onclick="AddProduct()"/></li>
+	    </ul>
+    </div>
+</body>
+<script>
+	var regS = new RegExp("&quot;","gi"); 
+	var mess = '';
+	mess="<s:property value='%{retJson}'/>";
+	mess = mess.replace(regS,"\"");
+	try{
+		var obj = JSON.parse(mess);
+		if( true == obj.MANAGER_RESULT ) {
+			alert("操作成功");
+			document.forms["toProductList"].submit();
+		}else{
+			alert("操作失败");
+		}
+	}catch(e) {
+	}
+</script> 
 <script>
 	/**
 		执行添加业务类型信息方法
@@ -62,32 +106,4 @@
 	}
 	
 </script>
-</head>
-
-<body>
-	<form id="toSchemeTypeList" method="post" name="toSchemeTypeList" action="toSchemeTypeList" />
-	<div class="place">
-	    <span>位置：</span>
-	    <ul class="placeul">
-		    <li><a href="#">首页</a></li>
-		    <li><a href="#">表单</a></li>
-	    </ul>
-    </div>
-    <div class="formbody">
-	    <div class="formtitle"><span>基本信息</span></div>
-	    <ul class="forminfo">
-		    <li><label>业务类型名称</label><input name="title" id="title" type="text" class="dfinput" value="业务类型名称" ></input> <i>标题不能超过30个字符</i></li>
-		    <li><label>是否在首页展示</label>
-		    	<cite>
-			    	<input name="is_show" id="is_show" type="radio" value="1" checked="checked" />
-			    	&nbsp;展示&nbsp;&nbsp;&nbsp;&nbsp;
-			    	<input name="is_show" id="is_show" type="radio" value="0" />
-			    	不展示
-		    	</cite>
-		    </li>
-		    <li><label>业务类型描述</label><input name="content" id="content" type="text" class="dfinput" value="业务类型描述" ></li>
-		    <li><label>&nbsp;</label><input name="" type="button" class="btn" value="确认保存" onclick="AddProduct()"/></li>
-	    </ul>
-    </div>
-</body>
 </html>

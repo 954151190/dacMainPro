@@ -20,6 +20,7 @@ import org.slf4j.LoggerFactory;
 import com.dacManager.www.entry.Page;
 import com.dacManager.www.entry.Product;
 import com.dacManager.www.server.IProductServer;
+import com.dacManager.www.util.JsonUtil;
 import com.dacManager.www.util.StaticVariable;
 import com.opensymphony.xwork2.ActionSupport;
   
@@ -143,8 +144,6 @@ public class ProductAction extends ActionSupport {
     public String productUpdate() {
     	//初始化上下问对象
     	Map<String,Object> contextMap = new HashMap<String,Object>();
-    	//初始化向HTML返回处理结果字符串
-    	String returnHtmlMsg = createHtmlMsg();
     	try{
     		//过滤乱码
     		this.product = this.filterCode(this.product);
@@ -154,15 +153,16 @@ public class ProductAction extends ActionSupport {
     		productServer.updateEntryServer( contextMap );
     		//设置返回结果
 			contextMap.put( StaticVariable.MANAGER_RESULT , true);
+			//创建返回内容
+	    	retJson = JsonUtil.createRetJson(contextMap);
     	}catch(Exception ex) {
     		logger.error("更新产品失败，失败原因。", ex);
     		//设置返回结果
 			contextMap.put( StaticVariable.MANAGER_RESULT , false);
 			contextMap.put( StaticVariable.MANAGER_ERROR_MESSAGE , ex);
+			//创建返回内容
+			retJson = JsonUtil.createErrorRetJson();
     	}
-    	Map<String,Object> retMap = createJSONMap(contextMap);
-    	JSONObject jsonObject = JSONObject.fromObject(retMap);
-    	retJson = jsonObject.toString();
     	return SUCCESS;
     }
     
@@ -198,8 +198,6 @@ public class ProductAction extends ActionSupport {
     public String productAdd() {
     	//初始化上下文对象
 		Map<String,Object> contextMap = new HashMap<String,Object>();
-		//初始化向HTML返回处理结果字符串
-		String returnHtmlMsg = createHtmlMsg();
     	try {
 	    	//过滤乱码
 	    	this.product = this.filterCode(this.product);
@@ -209,23 +207,16 @@ public class ProductAction extends ActionSupport {
 	    	productServer.saveEntryServer(contextMap);
 			//设置返回结果
 			contextMap.put( StaticVariable.MANAGER_RESULT , true);
+			//创建返回内容
+	    	retJson = JsonUtil.createRetJson(contextMap);
 		} catch (Exception ex) {
-			logger.error("保存公示公告信息失败，失败原因",ex);
+			logger.error("保存产品信息失败，失败原因",ex);
 			//设置返回结果
 			contextMap.put( StaticVariable.MANAGER_RESULT , false);
 			contextMap.put( StaticVariable.MANAGER_ERROR_MESSAGE , ex);
+			retJson = JsonUtil.createErrorRetJson();
 		} 
-    	Map<String,Object> retMap = createJSONMap(contextMap);
-    	JSONObject jsonObject = JSONObject.fromObject(retMap);
-    	retJson = jsonObject.toString();
     	return SUCCESS;
-    }
-    
-    private Map<String,Object> createJSONMap( Map<String,Object> contextMap ) {
-    	Map<String,Object> retMap = new HashMap<String,Object>();
-    	retMap.put(StaticVariable.MANAGER_ERROR_MESSAGE, contextMap.get(StaticVariable.MANAGER_ERROR_MESSAGE));
-    	retMap.put(StaticVariable.MANAGER_RESULT, contextMap.get(StaticVariable.MANAGER_RESULT));
-    	return retMap;
     }
     
     /**

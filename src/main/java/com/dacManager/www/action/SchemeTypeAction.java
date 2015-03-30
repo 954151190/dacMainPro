@@ -18,6 +18,7 @@ import org.slf4j.LoggerFactory;
 import com.dacManager.www.entry.Page;
 import com.dacManager.www.entry.SchemeType;
 import com.dacManager.www.server.ISchemeTypeServer;
+import com.dacManager.www.util.JsonUtil;
 import com.dacManager.www.util.StaticVariable;
 import com.opensymphony.xwork2.ActionSupport;
   
@@ -37,6 +38,11 @@ public class SchemeTypeAction extends ActionSupport {
 	 * 新增、修改、删除操作传递业务类型信息对象
 	 */
 	private SchemeType schemeType = new SchemeType();
+	
+	/**
+     * 返回页面信息JSON对象
+     */
+    private String retJson;
 	
 	/**
 	 * 产品列表页面数据集合
@@ -174,8 +180,6 @@ public class SchemeTypeAction extends ActionSupport {
     public String schemeTypeAdd() {
     	//初始化上下文对象
 		Map<String,Object> contextMap = new HashMap<String,Object>();
-		//初始化向HTML返回处理结果字符串
-		String returnHtmlMsg = createHtmlMsg();
     	try {
 	    	//过滤乱码
 	    	this.schemeType = this.filterCode(this.schemeType);
@@ -186,15 +190,18 @@ public class SchemeTypeAction extends ActionSupport {
 	    	schemeTypeServer.saveEntryServer(contextMap);
 			//设置返回结果
 			contextMap.put( StaticVariable.MANAGER_RESULT , true);
+			//设置返回结果
+			contextMap.put( StaticVariable.MANAGER_RESULT , true);
+			
 		} catch (Exception ex) {
 			logger.error("保存业务类型信息失败，失败原因",ex);
 			//设置返回结果
 			contextMap.put( StaticVariable.MANAGER_RESULT , false);
 			contextMap.put( StaticVariable.MANAGER_ERROR_MESSAGE , ex);
+			//创建返回内容
+			retJson = JsonUtil.createErrorRetJson();
 		} 
-    	//创建返回内容
-    	createHtmlMsg(contextMap);
-    	return null;
+    	return SUCCESS;
     }
     
     /**
@@ -279,5 +286,13 @@ public class SchemeTypeAction extends ActionSupport {
 
 	public void setSchemeTypeServer(ISchemeTypeServer schemeTypeServer) {
 		this.schemeTypeServer = schemeTypeServer;
+	}
+
+	public String getRetJson() {
+		return retJson;
+	}
+
+	public void setRetJson(String retJson) {
+		this.retJson = retJson;
 	}
 } 

@@ -21,41 +21,7 @@
 	text-align: LIFT;
 	} 
 </style>
-<script>
-	/**
-		执行添加产品信息方法
-	*/
-	function AddProduct() {
-		var title = encodeURI(encodeURI(document.getElementById("title").value));
-		var state =document.getElementById("state").value;
-		var arr = [];
-        arr.push(UE.getEditor('editor').getContent());
-        var content = arr.join("\n");
-		content = encodeURI(encodeURI(content));
-		$.ajax({  
-             url :"productAdd",//后台处理程序
-             type:"post",    	//数据发送方式  
-             async:false,  
-             data:"product.title="+title+"&product.content="+content+"",
-             error: function(){  
-             	alert("服务器没有返回数据，可能服务器忙，请重试");  
-            },  
-             success: function(data){
-            	 var retDate = eval("("+data+")");
-            	 if( true == retDate.MANAGER_RESULT ) {
-            		 //执行成功,跳转到UserList页面
-            		 alert("添加产品成功");
-            		 document.getElementById("toProductList").submit();
-            	 }else{
-            		 //执行失败，alert错误信息
-            		 alert("添加产品信息失败，失败原因：" + retDate.MANAGER_ERROR_MESSAGE );
-            	 }
-            }	
-		});  
-	}
-</script>
 </head>
-
 <body>
 	<div class="place">
 	    <span>位置：</span>
