@@ -19,36 +19,69 @@
 	text-align: LIFT;
 	} 
 </style>
+</head>
+
+<body>
+	<div class="place">
+	    <span>位置：</span>
+	    <ul class="placeul">
+		    <li><a href="#">首页</a></li>
+		    <li><a href="#">更新产品</a></li>
+	    </ul>
+    </div>
+	<div class="formbody">
+	    <div class="formtitle"><span>基本信息</span></div>
+	    <ul class="forminfo">
+	    	<form action="schemeTypeUpdate" method="post" id="schemeTypeUpdate"  name="schemeTypeUpdate">
+			    <li><label>业务类型名称</label><input name="title" id="title" type="text" class="dfinput" value="${ schemeType.title }" ></input> <i>标题不能超过30个字符</i></li>
+			    <li><label>是否在首页展示</label>
+			    	<cite>
+			    		<s:if test=" schemeType.is_show == 1">
+			    		<input name="is_show" id="is_show" type="radio" value="1" checked="checked" />
+				    	&nbsp;展示&nbsp;&nbsp;&nbsp;&nbsp;
+			    		</s:if>
+			    		<s:else>
+			    		<input name="is_show" id="is_show" type="radio" value="1"/>
+				    	&nbsp;展示&nbsp;&nbsp;&nbsp;&nbsp;
+			    		</s:else>
+				    	
+				    	<s:if test="schemeType.is_show == 0">
+				    	<input name="is_show" id="is_show" type="radio" value="0" checked="checked"/>
+				    	不展示
+				    	</s:if>
+				    	<s:else>
+				    	<input name="is_show" id="is_show" type="radio" value="0"/>
+				    	不展示
+				    	</s:else>
+			    	</cite>
+			    </li>
+			    <li><label>业务类型描述</label><input name="content" id="content" type="text" class="dfinput" value="${ schemeType.content }" ></input></li>
+			    <li><label>&nbsp;</label><input name="" type="submit" class="btn" value="确认更新" onclick="UpdateSchemeType()"/></li>
+			    <li>
+			    	<input type="hidden" id="schemeType.title" name="schemeType.title"/>
+			    	<input type="hidden" id="schemeType.content" name="schemeType.content"/>
+			    	<input type="hidden" id="schemeType.is_show" name="schemeType.is_show" />
+			    </li>
+			</form>
+	    </ul>
+	</div>
+	<div>
+		<form id="toSchemeTypeList" method="post" name="toSchemeTypeList" action="toSchemeTypeList" />
+	</div>
+</body>
 <script>
 	/**
 		执行更新业务类型信息方法
 	*/
 	function UpdateSchemeType() {
-		var title = encodeURI(encodeURI(document.getElementById("title").value));
-		var content = encodeURI(encodeURI(document.getElementById("content").value));
+		alert("UpdateSchemeType");
+		var title = encodeURI(document.getElementById("title").value);
+		var content = encodeURI(document.getElementById("content").value);
 		var is_show = getRadioValue();
-		$.ajax({  
-             url :"schemeTypeUpdate",//后台处理程序
-             type:"post",    	//数据发送方式  
-             async:false,  
-             data:"schemeType.title="+title+
-             		"&schemeType.content="+content+
-             		"&schemeType.is_show="+is_show+"",
-             error: function(){  
-             	alert("服务器没有返回数据，可能服务器忙，请重试");  
-            },  
-             success: function(data){
-            	 var retDate = eval("("+data+")");
-            	 if( true == retDate.MANAGER_RESULT ) {
-            		 //执行成功,跳转到UserList页面
-            		 alert("更新业务类型成功");
-            		 document.getElementById("toSchemeTypeList").submit();
-            	 }else{
-            		 //执行失败，alert错误信息
-            		 alert("更新业务类型信息失败，失败原因：" + retDate.MANAGER_ERROR_MESSAGE );
-            	 }
-            }	
-		});  
+		document.getElementById("schemeType.title").value = title;
+		document.getElementById("schemeType.content").value = content;
+		document.getElementById("schemeType.is_show").value = is_show;
+		return true;
 	}
 	
 	function getRadioValue() {
@@ -60,45 +93,20 @@
 		}
 	}
 </script>
-</head>
-
-<body>
-	<form id="toSchemeTypeList" method="post" name="toSchemeTypeList" action="toSchemeTypeList" />
-	<div class="place">
-    <span>位置：</span>
-    <ul class="placeul">
-    <li><a href="#">首页</a></li>
-    <li><a href="#">更新产品</a></li>
-    </ul>
-    </div>
-    <div class="formbody">
-    <div class="formtitle"><span>基本信息</span></div>
-    <ul class="forminfo">
-    <li><label>业务类型名称</label><input name="title" id="title" type="text" class="dfinput" value="${ schemeType.title }" ></input> <i>标题不能超过30个字符</i></li>
-    <li><label>是否在首页展示</label>
-    	<cite>
-    		<s:if test=" schemeType.is_show == 1">
-    		<input name="is_show" id="is_show" type="radio" value="1" checked="checked" />
-	    	&nbsp;展示&nbsp;&nbsp;&nbsp;&nbsp;
-    		</s:if>
-    		<s:else>
-    		<input name="is_show" id="is_show" type="radio" value="1"/>
-	    	&nbsp;展示&nbsp;&nbsp;&nbsp;&nbsp;
-    		</s:else>
-	    	
-	    	<s:if test="schemeType.is_show == 0">
-	    	<input name="is_show" id="is_show" type="radio" value="0" checked="checked"/>
-	    	不展示
-	    	</s:if>
-	    	<s:else>
-	    	<input name="is_show" id="is_show" type="radio" value="0"/>
-	    	不展示
-	    	</s:else>
-    	</cite>
-    </li>
-    <li><label>业务类型描述</label><input name="content" id="content" type="text" class="dfinput" value="${ schemeType.content }" ></input></li>
-    <li><label>&nbsp;</label><input name="" type="button" class="btn" value="确认更新" onclick="UpdateSchemeType()"/></li>
-    </ul>
-    </div>
-</body>
+<script>
+	var regS = new RegExp("&quot;","gi"); 
+	var mess = '';
+	mess="<s:property value='%{retJson}'/>";
+	mess = mess.replace(regS,"\"");
+	try{
+		var obj = JSON.parse(mess);
+		if( true == obj.MANAGER_RESULT ) {
+			alert("操作成功");
+			document.forms["toSchemeTypeList"].submit();
+		}else{
+			alert("操作失败");
+		}
+	}catch(e) {
+	}
+</script> 
 </html>

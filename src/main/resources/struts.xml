@@ -40,14 +40,18 @@
 			<result name="success">fomrAddSchemeType.jsp</result>
 		</action>
 		
-		<action name="schemeTypeAdd" class="SchemeTypeAction" method="schemeTypeAdd" />
+		<action name="schemeTypeAdd" class="SchemeTypeAction" method="schemeTypeAdd" >
+			<result name="success">fomrAddSchemeType.jsp</result>
+		</action>
 		
 		<!-- UPDATE -->
 		<action name="toSchemeTypeUpdate" class="SchemeTypeAction" method="toSchemeTypeUpdate">
 			<result name="success">fomrUpdateSchemeType.jsp</result>
 		</action>
 		
-		<action name="schemeTypeUpdate" class="SchemeTypeAction" method="schemeTypeUpdate" />
+		<action name="schemeTypeUpdate" class="SchemeTypeAction" method="schemeTypeUpdate" >
+			<result name="success">fomrUpdateSchemeType.jsp</result>
+		</action>
 		
 		<!-- DELETE -->
 		<action name="schemeTypeDelete" class="SchemeTypeAction" method="schemeTypeDelete"/>

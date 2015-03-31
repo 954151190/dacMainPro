@@ -32,7 +32,7 @@
     </div>
     <div class="formbody">
 	    <div class="formtitle"><span>基本信息</span></div>
-	    <form action="productAdd" method="post" id="productAdd"  name="productAdd"   enctype="multipart/form-data">
+	    <form action="productAdd" method="post" id="productAdd"  name="productAdd">
 		    <ul class="forminfo">
 			    <li><label>文章标题</label><input id="title" type="text" class="dfinput" value="" ></input> <i>标题不能超过30个字符</i></li>
 			    <li><label>略缩图</label><input type="file" id="file" name="file"/></br></li>

@@ -125,8 +125,6 @@ public class SchemeTypeAction extends ActionSupport {
     public String schemeTypeUpdate() {
     	//初始化上下问对象
     	Map<String,Object> contextMap = new HashMap<String,Object>();
-    	//初始化向HTML返回处理结果字符串
-    	String returnHtmlMsg = createHtmlMsg();
     	try{
     		//过滤乱码
     		this.schemeType = this.filterCode(this.schemeType);
@@ -135,15 +133,17 @@ public class SchemeTypeAction extends ActionSupport {
     		schemeTypeServer.updateEntryServer( contextMap );
     		//设置返回结果
 			contextMap.put( StaticVariable.MANAGER_RESULT , true);
+			//创建返回内容
+	    	retJson = JsonUtil.createRetJson(contextMap);
     	}catch(Exception ex) {
     		logger.error("更新业务类型失败，失败原因。", ex);
     		//设置返回结果
 			contextMap.put( StaticVariable.MANAGER_RESULT , false);
 			contextMap.put( StaticVariable.MANAGER_ERROR_MESSAGE , ex);
+			//创建返回内容
+			retJson = JsonUtil.createErrorRetJson();
     	}
-    	//创建返回内容
-    	createHtmlMsg(contextMap);
-    	return null;
+    	return SUCCESS;
     }
     
     /**
@@ -190,15 +190,13 @@ public class SchemeTypeAction extends ActionSupport {
 	    	schemeTypeServer.saveEntryServer(contextMap);
 			//设置返回结果
 			contextMap.put( StaticVariable.MANAGER_RESULT , true);
-			//设置返回结果
-			contextMap.put( StaticVariable.MANAGER_RESULT , true);
-			
+			//创建返回内容
+	    	retJson = JsonUtil.createRetJson(contextMap);
 		} catch (Exception ex) {
 			logger.error("保存业务类型信息失败，失败原因",ex);
 			//设置返回结果
 			contextMap.put( StaticVariable.MANAGER_RESULT , false);
 			contextMap.put( StaticVariable.MANAGER_ERROR_MESSAGE , ex);
-			//创建返回内容
 			retJson = JsonUtil.createErrorRetJson();
 		} 
     	return SUCCESS;
