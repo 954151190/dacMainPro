@@ -21,37 +21,62 @@
 	text-align: LIFT;
 	} 
 </style>
+</head>
+<body>
+	<div class="place">
+	    <span>位置：</span>
+	    <ul class="placeul">
+		    <li><a href="#">首页</a></li>
+		    <li><a href="#">表单</a></li>
+	    </ul>
+    </div>
+    <div class="formbody">
+	    <div class="formtitle"><span>基本信息</span></div>
+	    <ul class="forminfo">
+	    	<form action="schemeAdd" method="post" id="schemeAdd"  name="schemeAdd">
+			    <li><label>业务文章标题</label><input name="title" id="title" type="text" class="dfinput" value="" ></input> <i>标题不能超过30个字符</i></li>
+			    <li>
+			    	<label>业务文章类型</label>
+			    	<cite>
+			    		<select id="type" name="type">
+				    		<s:iterator value="schemeTypeMap" id="schemeType">
+				    			<option id="${ schemeType.key }">${ schemeType.value }</option>
+				   			</s:iterator>
+			   			</select>
+			    	</cite>
+			    </li>
+			    <li>
+			    	<label>文章内容</label>
+			    	<script id="editor" type="text/plain" style="width:100%;height:500px;"></script>
+			    </li>
+			    <li><label>&nbsp;</label><input name="" type="submit" class="btn" value="确认保存" onclick="AddProduct()"/></li>
+			    <li>
+			    	<input type="hidden" id="scheme.title" name="scheme.title"/>
+			    	<input type="hidden" id="scheme.content" name="scheme.content"/>
+			    	<input type="hidden" id="scheme.type" name="scheme.type"/>
+			    </li>
+		    </form>
+	    </ul>
+	</div>
+    <div>
+    	<form id="toSchemeList" method="post" name="toSchemeList" action="toSchemeList?page.number=1&page.count=10" />
+    </div>
 <script>
 	/**
 		执行添加业务信息方法
+		schemeAdd
 	*/
 	function AddProduct() {
-		var title = encodeURI(encodeURI(document.getElementById("title").value));
+		var title = encodeURI(document.getElementById("title").value);
 		var arr = [];
         arr.push(UE.getEditor('editor').getContent());
         var content = arr.join("\n");
-        content = encodeURI(encodeURI(content));
+        content = encodeURI(content);
         var type = getSelectValue();
-		$.ajax({  
-             url :"schemeAdd",//后台处理程序
-             type:"post",    	//数据发送方式  
-             async:false,  
-             data:"scheme.title="+title+"&scheme.content="+content+"&scheme.type="+type+"",
-             error: function(){  
-             	alert("服务器没有返回数据，可能服务器忙，请重试");  
-            },  
-             success: function(data){
-            	 var retDate = eval("("+data+")");
-            	 if( true == retDate.MANAGER_RESULT ) {
-            		 //执行成功,跳转到UserList页面
-            		 alert("添加业务成功");
-            		 document.getElementById("toSchemeList").submit();
-            	 }else{
-            		 //执行失败，alert错误信息
-            		 alert("添加业务信息失败，失败原因：" + retDate.MANAGER_ERROR_MESSAGE );
-            	 }
-            }	
-		});  
+        document.getElementById("scheme.title").value = title;
+        document.getElementById("scheme.content").value = content;
+        document.getElementById("scheme.type").value = type;
+        return true;
 	}
 	
 	function getSelectValue(  ) {
@@ -60,39 +85,7 @@
 		var id = obj.options[index].id; // 选中值
 		return id;
 	}
-</script>
-</head>
-
-<body>
-	<form id="toSchemeList" method="post" name="toSchemeList" action="toSchemeList" />
-	<div class="place">
-    <span>位置：</span>
-    <ul class="placeul">
-    <li><a href="#">首页</a></li>
-    <li><a href="#">表单</a></li>
-    </ul>
-    </div>
-    <div class="formbody">
-    <div class="formtitle"><span>基本信息</span></div>
-    <ul class="forminfo">
-    <li><label>业务文章标题</label><input name="title" id="title" type="text" class="dfinput" value="张三" ></input> <i>标题不能超过30个字符</i></li>
-    <li>
-    	<label>业务文章类型</label>
-    	<cite>
-    		<select id="type" name="type">
-	    		<s:iterator value="schemeTypeMap" id="schemeType">
-	    			<option id="${ schemeType.key }">${ schemeType.value }</option>
-	   			</s:iterator>
-   			</select>
-    	</cite>
-    </li>
-    <li>
-    	<label>文章内容</label>
-    	<script id="editor" type="text/plain" style="width:100%;height:500px;"></script>
-    </li>
-    <li><label>&nbsp;</label><input name="" type="button" class="btn" value="确认保存" onclick="AddProduct()"/></li>
-    </ul>
-    </div>
+</script>    
 <script type="text/javascript">
     //实例化编辑器
     //建议使用工厂方法getEditor创建和引用编辑器实例，如果在某个闭包下引用该编辑器，直接调用UE.getEditor('editor')就能拿到相关的实例
@@ -195,6 +188,22 @@
             UE.dom.domUtils.removeAttributes(btn, ["disabled"]);
         }
     }
-</script>    
+</script>
+<script>
+	var regS = new RegExp("&quot;","gi"); 
+	var mess = '';
+	mess="<s:property value='%{retJson}'/>";
+	mess = mess.replace(regS,"\"");
+	try{
+		var obj = JSON.parse(mess);
+		if( true == obj.MANAGER_RESULT ) {
+			alert("操作成功");
+			document.forms["toSchemeList"].submit();
+		}else{
+			alert("操作失败");
+		}
+	}catch(e) {
+	}
+</script>     
 </body>
 </html>

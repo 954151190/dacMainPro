@@ -178,14 +178,18 @@
 			<result name="success">fomrAddScheme.jsp</result>
 		</action>
 		
-		<action name="schemeAdd" class="SchemeAction" method="schemeAdd" />
+		<action name="schemeAdd" class="SchemeAction" method="schemeAdd" >
+			<result name="success">fomrAddScheme.jsp</result>
+		</action>
 		
 		<!-- UPDATE -->
 		<action name="toSchemeUpdate" class="SchemeAction" method="toSchemeUpdate">
 			<result name="success">fomrUpdateScheme.jsp</result>
 		</action>
 		
-		<action name="schemeUpdate" class="SchemeAction" method="schemeUpdate" />
+		<action name="schemeUpdate" class="SchemeAction" method="schemeUpdate" >
+			<result name="success">fomrUpdateScheme.jsp</result>
+		</action>
 		
 		<!-- DELETE -->
 		<action name="schemeDelete" class="SchemeAction" method="schemeDelete"/>

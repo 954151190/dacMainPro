@@ -20,6 +20,7 @@ import com.dacManager.www.entry.Scheme;
 import com.dacManager.www.entry.SchemeType;
 import com.dacManager.www.server.ISchemeServer;
 import com.dacManager.www.server.ISchemeTypeServer;
+import com.dacManager.www.util.JsonUtil;
 import com.dacManager.www.util.StaticVariable;
 import com.opensymphony.xwork2.ActionSupport;
   
@@ -45,6 +46,11 @@ public class SchemeAction extends ActionSupport {
 	 */
 	private List<Scheme> schemeList = new ArrayList<Scheme>();
 	
+	/**
+     * 返回页面信息JSON对象
+     */
+    private String retJson;
+    
 	/**
 	 * 业务类型数据集合
 	 */
@@ -164,8 +170,6 @@ public class SchemeAction extends ActionSupport {
     public String schemeUpdate() {
     	//初始化上下问对象
     	Map<String,Object> contextMap = new HashMap<String,Object>();
-    	//初始化向HTML返回处理结果字符串
-    	String returnHtmlMsg = createHtmlMsg();
     	try{
     		//过滤乱码
     		this.scheme = this.filterCode(this.scheme);
@@ -174,15 +178,16 @@ public class SchemeAction extends ActionSupport {
     		schemeServer.updateEntryServer( contextMap );
     		//设置返回结果
 			contextMap.put( StaticVariable.MANAGER_RESULT , true);
+			//创建返回内容
+	    	retJson = JsonUtil.createRetJson(contextMap);
     	}catch(Exception ex) {
     		logger.error("更新业务失败，失败原因。", ex);
     		//设置返回结果
 			contextMap.put( StaticVariable.MANAGER_RESULT , false);
 			contextMap.put( StaticVariable.MANAGER_ERROR_MESSAGE , ex);
+			retJson = JsonUtil.createErrorRetJson();
     	}
-    	//创建返回内容
-    	createHtmlMsg(contextMap);
-    	return null;
+    	return SUCCESS;
     }
     
     /**
@@ -219,8 +224,6 @@ public class SchemeAction extends ActionSupport {
     public String schemeAdd() {
     	//初始化上下文对象
 		Map<String,Object> contextMap = new HashMap<String,Object>();
-		//初始化向HTML返回处理结果字符串
-		String returnHtmlMsg = createHtmlMsg();
     	try {
 	    	//过滤乱码
 	    	this.scheme = this.filterCode(this.scheme);
@@ -229,15 +232,16 @@ public class SchemeAction extends ActionSupport {
 	    	schemeServer.saveEntryServer(contextMap);
 			//设置返回结果
 			contextMap.put( StaticVariable.MANAGER_RESULT , true);
+			//创建返回内容
+	    	retJson = JsonUtil.createRetJson(contextMap);
 		} catch (Exception ex) {
 			logger.error("保存业务信息失败，失败原因",ex);
 			//设置返回结果
 			contextMap.put( StaticVariable.MANAGER_RESULT , false);
 			contextMap.put( StaticVariable.MANAGER_ERROR_MESSAGE , ex);
+			retJson = JsonUtil.createErrorRetJson();
 		} 
-    	//创建返回内容
-    	createHtmlMsg(contextMap);
-    	return null;
+    	return SUCCESS;
     }
     
     /**
@@ -338,5 +342,13 @@ public class SchemeAction extends ActionSupport {
 
 	public void setSchemeTypeServer(ISchemeTypeServer schemeTypeServer) {
 		this.schemeTypeServer = schemeTypeServer;
+	}
+
+	public String getRetJson() {
+		return retJson;
+	}
+
+	public void setRetJson(String retJson) {
+		this.retJson = retJson;
 	}
 } 

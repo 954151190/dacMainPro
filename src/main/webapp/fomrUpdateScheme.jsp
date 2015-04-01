@@ -21,11 +21,71 @@
 	text-align: LIFT;
 	} 
 </style>
+</head>
+<body>
+	<div class="place">
+	    <span>位置：</span>
+	    <ul class="placeul">
+		    <li><a href="#">首页</a></li>
+		    <li><a href="#">更新产品</a></li>
+	    </ul>
+    </div>
+    <div class="formbody">
+    	<div class="formtitle"><span>基本信息</span></div>
+	    <ul class="forminfo">
+	    	<form action="schemeUpdate" method="post" id="schemeUpdate"  name="schemeUpdate">
+			    <li><label>文章标题</label><input name="title" id="title" type="text" class="dfinput" value="${ scheme.title }" ></input> <i>标题不能超过30个字符</i></li>
+			    <li>
+			    	<label>业务文章类型</label>
+			    	<cite>
+			    		<select id="type" name="type">
+				    		<s:iterator value="schemeTypeMap" id="schemeType">
+				    			<s:if test=" #schemeType.key == scheme.type ">
+				    				<option id="${ schemeType.key }" selected="selected">${ schemeType.value }</option>
+				    			</s:if>
+				    			<s:else>
+				    				<option id="${ schemeType.key }">${ schemeType.value }</option>
+				    			</s:else>
+				   			</s:iterator>
+			   			</select>
+			    	</cite>
+			    </li>
+			    <li>
+			    	<label>文章内容</label>
+			    	<script id="editor" type="text/plain" style="width:100%;height:500px;">${ scheme.content }</script>
+			    </li>
+			    <li><label>&nbsp;</label><input name="" type="submit" class="btn" value="确认更新" onclick="UpdateScheme()"/></li>
+			    <li>
+			    	<input type="hidden" id="scheme.id" name="scheme.id" value="${ scheme.id }"/>
+			    	<input type="hidden" id="scheme.title" name="scheme.title"/>
+			    	<input type="hidden" id="scheme.content" name="scheme.content"/>
+			    	<input type="hidden" id="scheme.type" name="scheme.type"/>
+			    </li>
+		    </form>
+	    </ul>
+    </div>
+    <div>
+    	<form id="toSchemeList" method="post" name="toSchemeList" action="toSchemeList?page.number=1&page.count=10" />
+    </div>
 <script>
+
+function UpdateScheme() {
+	var title = encodeURI(document.getElementById("title").value);
+	var arr = [];
+    arr.push(UE.getEditor('editor').getContent());
+    var content = arr.join("\n");
+	content = encodeURI(content);
+	var type = getSelectValue();
+	document.getElementById("scheme.title").value = title;
+	document.getElementById("scheme.content").value = content;
+	document.getElementById("scheme.type").value = type;
+	return true;
+}
+
 	/**
 		执行更新业务信息方法
 	*/
-	function UpdateScheme() {
+	function UpdateScheme_bak() {
 		var title = encodeURI(encodeURI(document.getElementById("title").value));
 		var arr = [];
         arr.push(UE.getEditor('editor').getContent());
@@ -60,44 +120,7 @@
 		var id = obj.options[index].id; // 选中值
 		return id;
 	}
-</script>
-</head>
-
-<body>
-	<form id="toSchemeList" method="post" name="toSchemeList" action="toSchemeList" />
-	<div class="place">
-    <span>位置：</span>
-    <ul class="placeul">
-    <li><a href="#">首页</a></li>
-    <li><a href="#">更新产品</a></li>
-    </ul>
-    </div>
-    <div class="formbody">
-    <div class="formtitle"><span>基本信息</span></div>
-    <ul class="forminfo">
-    <li><label>文章标题</label><input name="title" id="title" type="text" class="dfinput" value="${ scheme.title }" ></input> <i>标题不能超过30个字符</i></li>
-     <li>
-    	<label>业务文章类型</label>
-    	<cite>
-    		<select id="type" name="type">
-	    		<s:iterator value="schemeTypeMap" id="schemeType">
-	    			<s:if test=" #schemeType.key == scheme.type ">
-	    				<option id="${ schemeType.key }" selected="selected">${ schemeType.value }</option>
-	    			</s:if>
-	    			<s:else>
-	    				<option id="${ schemeType.key }">${ schemeType.value }</option>
-	    			</s:else>
-	   			</s:iterator>
-   			</select>
-    	</cite>
-    </li>
-    <li>
-    	<label>文章内容</label>
-    	<script id="editor" type="text/plain" style="width:100%;height:500px;">${ scheme.content }</script>
-    </li>
-    <li><label>&nbsp;</label><input name="" type="button" class="btn" value="确认更新" onclick="UpdateScheme()"/></li>
-    </ul>
-    </div>
+</script>    
 <script type="text/javascript">
     //实例化编辑器
     //建议使用工厂方法getEditor创建和引用编辑器实例，如果在某个闭包下引用该编辑器，直接调用UE.getEditor('editor')就能拿到相关的实例
@@ -200,6 +223,22 @@
             UE.dom.domUtils.removeAttributes(btn, ["disabled"]);
         }
     }
+</script>
+<script>
+	var regS = new RegExp("&quot;","gi"); 
+	var mess = '';
+	mess="<s:property value='%{retJson}'/>";
+	mess = mess.replace(regS,"\"");
+	try{
+		var obj = JSON.parse(mess);
+		if( true == obj.MANAGER_RESULT ) {
+			alert("操作成功");
+			document.forms["toSchemeList"].submit();
+		}else{
+			alert("操作失败");
+		}
+	}catch(e) {
+	}
 </script>    
 </body>
 </html>

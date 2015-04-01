@@ -74,7 +74,6 @@
 		执行更新业务类型信息方法
 	*/
 	function UpdateSchemeType() {
-		alert("UpdateSchemeType");
 		var title = encodeURI(document.getElementById("title").value);
 		var content = encodeURI(document.getElementById("content").value);
 		var is_show = getRadioValue();
