@@ -12,6 +12,11 @@ public class Page {
 		this.count = 20;
 	}
 	
+	public Page( int number , int count ) {
+		this.number = number;
+		this.count = count;
+	}
+	
 	/**
 	 * Ò³Âë
 	 */
