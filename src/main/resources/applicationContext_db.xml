@@ -22,7 +22,7 @@
         </property>  
         <!-- 定义数据库的用户名 -->  
         <property name="user">  
-            <value>dacManager</value>  
+            <value>dacManager1</value>  
         </property>  
         <!-- 定义数据库的密码 -->  
         <property name="password">  

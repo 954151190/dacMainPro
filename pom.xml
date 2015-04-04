@@ -123,6 +123,19 @@
 			<version>2.4</version>
 			<classifier>jdk13</classifier>
 		</dependency>
+		<!-- 日志配置 -->
+		<dependency>
+	      <groupId>ch.qos.logback</groupId>
+	      <artifactId>logback-classic</artifactId>
+	      <version>1.0.7</version>
+	      <scope>compile</scope>
+	      <exclusions>
+	        <exclusion>
+	          <artifactId>slf4j-api</artifactId>
+	          <groupId>org.slf4j</groupId>
+	        </exclusion>
+	      </exclusions>
+	    </dependency>
 	</dependencies>
   <build>
     <finalName>dacMain</finalName>
