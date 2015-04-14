@@ -7,6 +7,5 @@ http://www.springframework.org/schema/context http://www.springframework.org/sch
 http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util-2.5.xsd">
 	<import resource="applicationContext_db.xml" />
 	<import resource="applicationContext_bean.xml" />
-	
-	
+	<import resource="applicationContext_config.xml" />
 </beans>

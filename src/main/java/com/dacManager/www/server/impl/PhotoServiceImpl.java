@@ -17,15 +17,13 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.jdbc.core.JdbcTemplate;
 
-import com.dacManager.www.action.PhotoAction;
 import com.dacManager.www.dao.db.rowMapper.PhotoRowMapper;
-import com.dacManager.www.dao.db.rowMapper.SchemeRowMapper;
 import com.dacManager.www.entry.Page;
 import com.dacManager.www.entry.Photo;
-import com.dacManager.www.entry.Scheme;
 import com.dacManager.www.entry.SchemeType;
 import com.dacManager.www.server.IPhotoServer;
 import com.dacManager.www.util.BuildSQLUtil;
+import com.dacManager.www.util.Config;
 import com.dacManager.www.util.QueryHelper;
 import com.dacManager.www.util.StaticVariable;
 
@@ -73,7 +71,7 @@ public class PhotoServiceImpl implements IPhotoServer{
 		try {
 			Photo photo = (Photo)contextMap.get(StaticVariable.MS_PHOTO_OBJECT);
 			File inFile = (File)contextMap.get(StaticVariable.MS_PHOTO_FILE_OBJECT);
-			File outFile = new File( PhotoAction.photoPuth + photo.getId() + ".jpg" );
+			File outFile = new File( Config.INDEX_PHOTO_PATH + photo.getId() + ".jpg" );
 			InputStream input = new FileInputStream(inFile);
 			OutputStream out = new FileOutputStream(outFile);
 			int temp = 0;
@@ -168,7 +166,7 @@ public class PhotoServiceImpl implements IPhotoServer{
 		try{
 			Photo photo = (Photo)contextMap.get(StaticVariable.MS_PHOTO_OBJECT);
 			//获取文件地址
-			String filePath = PhotoAction.photoPuth + photo.getId() + ".jpg";
+			String filePath = Config.INDEX_PHOTO_PATH + photo.getId() + ".jpg";
 			File deleteFile = new File( filePath );
 			if( deleteFile.isFile() && deleteFile.exists() ) {
 				deleteFile.delete();

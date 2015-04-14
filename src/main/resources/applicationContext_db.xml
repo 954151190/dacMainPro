@@ -18,11 +18,11 @@
         </property>  
         <!-- 定义数据库URL -->  
         <property name="jdbcUrl">  
-            <value>jdbc:oracle:thin:@localhost:1521:wspt</value>  
+            <value>jdbc:oracle:thin:@127.0.0.1:1521:wspt</value>  
         </property>  
         <!-- 定义数据库的用户名 -->  
         <property name="user">  
-            <value>dacManager1</value>  
+            <value>dacManager</value>  
         </property>  
         <!-- 定义数据库的密码 -->  
         <property name="password">  

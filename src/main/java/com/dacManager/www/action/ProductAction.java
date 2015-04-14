@@ -32,15 +32,6 @@ import com.opensymphony.xwork2.ActionSupport;
 public class ProductAction extends ActionSupport {  
 	private static final Logger logger = LoggerFactory.getLogger(ProductAction.class);
 	/**
-     * 略缩图存储路径（临时）
-     */
-    public static String photoPath = "C:\\impageManage\\product\\";
-    
-    /**
-     * 略缩图默认展示图片的存储路径(临时)
-     */
-    public static String photoPathDef = "proDef.jpg";
-	/**
 	 * 略缩图
 	 */
 	private File file;

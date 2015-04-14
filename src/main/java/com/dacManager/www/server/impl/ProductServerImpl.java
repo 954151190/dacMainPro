@@ -19,13 +19,13 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.jdbc.core.JdbcTemplate;
 
-import com.dacManager.www.action.ProductAction;
 import com.dacManager.www.dao.db.rowMapper.ProductRowMapper;
 import com.dacManager.www.entry.Page;
 import com.dacManager.www.entry.Product;
 import com.dacManager.www.entry.User;
 import com.dacManager.www.server.IProductServer;
 import com.dacManager.www.util.BuildSQLUtil;
+import com.dacManager.www.util.Config;
 import com.dacManager.www.util.QueryHelper;
 import com.dacManager.www.util.StaticVariable;
 
@@ -96,9 +96,9 @@ public class ProductServerImpl implements IProductServer {
 			//获取产品信息
 			Product product =(Product) contextMap.get(StaticVariable.MS_PRODUCT_OBJECT);
 			String photo_id = product.getPhoto_id();
-			if( !ProductAction.photoPathDef.equals(photo_id) ) {
+			if( !Config.PRODUCT_PHOTO_PATH_DEF.equals(photo_id) ) {
 				//生成图片物理地址
-				String photo_path = ProductAction.photoPath + photo_id;
+				String photo_path = Config.PRODUCT_PHOTO_PATH + photo_id;
 				try{
 					File deleteFile = new File( photo_path );
 					deleteFile.delete();
@@ -133,7 +133,7 @@ public class ProductServerImpl implements IProductServer {
 				saveFile(contextMap, product);
 			}else{
 				//图片不存在，设定默认值
-				product.setPhoto_id(ProductAction.photoPathDef);
+				product.setPhoto_id(Config.PRODUCT_PHOTO_PATH_DEF);
 			}
 		}catch(Exception ex) {
 			logger.error("处理产品图片信息失败" , ex);
@@ -150,7 +150,7 @@ public class ProductServerImpl implements IProductServer {
 	 */
 	private void saveFile(Map<String, Object> contextMap, Product product) throws FileNotFoundException, IOException {
 		File inFile = (File) contextMap.get(StaticVariable.MS_PRODUCT_FILE);
-		File outFile = new File( ProductAction.photoPath + product.getPhoto_id() );
+		File outFile = new File( Config.PRODUCT_PHOTO_PATH + product.getPhoto_id() );
 		InputStream input = new FileInputStream(inFile);
 		OutputStream out = new FileOutputStream(outFile);
 		int temp = 0;

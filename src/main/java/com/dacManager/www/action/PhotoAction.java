@@ -24,6 +24,7 @@ import org.slf4j.LoggerFactory;
 import com.dacManager.www.entry.Page;
 import com.dacManager.www.entry.Photo;
 import com.dacManager.www.server.IPhotoServer;
+import com.dacManager.www.util.Config;
 import com.dacManager.www.util.JsonUtil;
 import com.dacManager.www.util.StaticVariable;
 import com.opensymphony.xwork2.ActionSupport;
@@ -55,11 +56,6 @@ public class PhotoAction extends ActionSupport {
      * 新增操作传递图片信息对象
      */
     private File photoFile;
-    
-    /**
-     * 存储图片的路径（临时）
-     */
-    public static String photoPuth = "C:\\impageManage\\";
     
     /**
      * 返回JSON对象
@@ -195,7 +191,7 @@ public class PhotoAction extends ActionSupport {
     		try {
     	        HttpServletResponse response = ServletActionContext.getResponse();
     	    	ServletOutputStream out = response.getOutputStream();
-    	    	String photoPath = ProductAction.photoPath+ this.photo.getId();
+    	    	String photoPath = Config.PRODUCT_PHOTO_PATH + this.photo.getId();
     			InputStream is = new FileInputStream(new File(photoPath));
     			int b = 0;
     			byte[] bytes = new byte[0xffff];
@@ -227,7 +223,7 @@ public class PhotoAction extends ActionSupport {
 	    	//生成图片唯一标识
 	    	photo.setId(UUID.randomUUID().toString());
 	    	//生成图片存储路径
-	    	photo.setPath( PhotoAction.photoPuth + photo.getId() + ".jpg" );
+	    	photo.setPath( Config.INDEX_PHOTO_PATH + photo.getId() + ".jpg" );
 	    	
 	    	contextMap.put(StaticVariable.MS_PHOTO_OBJECT, this.photo);
 	    	contextMap.put(StaticVariable.MS_PHOTO_FILE_OBJECT, this.photoFile);
