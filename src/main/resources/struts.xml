@@ -55,7 +55,13 @@
 		
 		<!-- DELETE -->
 		<action name="schemeTypeDelete" class="SchemeTypeAction" method="schemeTypeDelete"/>
-	
+		<!-- 基础 -->
+		<action name="toBasisUpdate" class="BasisAction" method="toBasisUpdate">
+			<result name="success">fomrUpdateBasis.jsp</result>
+		</action>
+		<action name="basisUpdate" class="BasisAction" method="basisUpdate">
+			<result name="success">fomrUpdateBasis.jsp</result>
+		</action>
 		<!-- 登录 -->
 		<action name="login" class="LoginAction" method="login">
 			<result name="success">main.html</result>

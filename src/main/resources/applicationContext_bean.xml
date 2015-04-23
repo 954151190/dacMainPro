@@ -15,6 +15,11 @@
 			<ref bean="jdbcTemplate"/>
 		</property>
 	</bean>
+	<bean id="basisService" class="com.dacManager.www.server.impl.BasisServerImpl">
+		<property name="jdbcTemplate">
+			<ref bean="jdbcTemplate"/>
+		</property>
+	</bean>
 	<bean id="bulletinService" class="com.dacManager.www.server.impl.BulletinServerImpl">
 		<property name="jdbcTemplate">
 			<ref bean="jdbcTemplate"/>
@@ -50,6 +55,11 @@
 	<bean id="UserAction" class="com.dacManager.www.action.UserAction" scope="prototype">
 		<property name="userService">
 			<ref bean="userService" />
+		</property>
+	</bean>
+	<bean id="BasisAction" class="com.dacManager.www.action.BasisAction" scope="prototype">
+		<property name="basisServer">
+			<ref bean="basisService" />
 		</property>
 	</bean>
 	<bean id="LoginAction" class="com.dacManager.www.action.LoginAction" scope="prototype">

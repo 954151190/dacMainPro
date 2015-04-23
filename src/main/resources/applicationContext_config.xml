@@ -14,13 +14,12 @@
 			<value>C:\\impageManage\\</value>
 		</property>
 		<!-- 产品略缩图存储路径 -->
-		<property name="INDEX_PHOTO_PATH">
+		<property name="PRODUCT_PHOTO_PATH">
 			<value>C:\\impageManage\\product\\</value>
 		</property>
 		<!-- 产品略缩图默认展示图片的存储路径(临时) -->
 		<property name="PRODUCT_PHOTO_PATH_DEF">
 			<value>proDef.jpg</value>
 		</property>
-		PRODUCT_PHOTO_PATH_DEF
 	</bean>
 </beans>  

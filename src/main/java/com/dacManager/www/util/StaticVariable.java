@@ -19,6 +19,17 @@ public class StaticVariable {
 	 * 错误处理异常对象
 	 */
 	public static final String MANAGER_ERROR_EXCEPTION = "MANAGER_ERROR_EXCEPTION";
+	
+	//基础区域
+	/**
+	 * 基础表表名
+	 */
+	public static final String TABLE_NAME_BASIS = "T_CN_BASIS";
+	/**
+	 * 交互参数标识，标识基础信息对象的KEY
+	 */
+	public static final String MS_BASIS_OBJECT = "OBJECT_BASIS";
+	
 	//用户区域
 	/**
 	 * 相关表名
